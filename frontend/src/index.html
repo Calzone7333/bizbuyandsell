@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bizbuyandsell | Premier Business Marketplace</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed": "#a2eff9",
+            "surface-container-high": "#e7e8e9",
+            "on-primary-fixed-variant": "#3a4951",
+            "on-surface-variant": "#43474a",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#99a9b2",
+            "secondary": "#046971",
+            "on-surface": "#191c1d",
+            "tertiary-container": "#573400",
+            "on-tertiary": "#ffffff",
+            "primary-container": "#2f3e46",
+            "surface-tint": "#516169",
+            "primary-fixed-dim": "#b9c9d3",
+            "inverse-primary": "#b9c9d3",
+            "error-container": "#ffdad6",
+            "inverse-surface": "#2e3132",
+            "surface-dim": "#d9dadb",
+            "surface": "#f8f9fa",
+            "surface-container": "#edeeef",
+            "on-primary-fixed": "#0e1d25",
+            "surface-container-highest": "#e1e3e4",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#ffddb9",
+            "outline": "#73787b",
+            "on-tertiary-fixed": "#2b1700",
+            "on-primary": "#ffffff",
+            "on-background": "#191c1d",
+            "primary-fixed": "#d5e5ef",
+            "surface-variant": "#e1e3e4",
+            "surface-container-low": "#f3f4f5",
+            "on-secondary-fixed-variant": "#004f56",
+            "inverse-on-surface": "#f0f1f2",
+            "error": "#ba1a1a",
+            "tertiary": "#392100",
+            "secondary-fixed-dim": "#86d3dc",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#643e05",
+            "background": "#f8f9fa",
+            "surface-bright": "#f8f9fa",
+            "on-secondary-fixed": "#001f23",
+            "on-secondary-container": "#106d76",
+            "outline-variant": "#c3c7ca",
+            "on-tertiary-container": "#d19c5d",
+            "tertiary-fixed-dim": "#f4bc7a",
+            "secondary-container": "#9fecf6",
+            "primary": "#192830",
+            "vibrant-orange": "#FF6B00",
+            "navy-blue": "#0A1F44"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"],
+            "poppins": ["Poppins"]
+          }
+        },
+      }
+    }
+  </script>
+  
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+    .editorial-shadow {
+      box-shadow: 0 12px 40px rgba(25, 28, 29, 0.06);
+    }
+    .glass-header {
+      background: rgba(248, 249, 250, 0.8);
+      backdrop-filter: blur(12px);
+    }
+    .sparkline-gradient {
+      background: linear-gradient(to bottom, rgba(4, 105, 113, 0.1), transparent);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-shadow {
+      box-shadow: 0 1px 15px -3px rgba(0,0,0,0.07);
+    }
+    
+    /* Standardized Architectural Typography */
+    body {
+      font-family: 'Inter', sans-serif !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6, .font-headline {
+      font-family: 'Manrope', sans-serif !important;
+    }
+    
+    button, input, select, textarea, .font-body {
+      font-family: 'Inter', sans-serif !important;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+  <app-root></app-root>
+</body>
+</html>

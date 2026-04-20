@@ -1,0 +1,12 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Optimization for GSAP animations */
+.gsap-reveal {
+  will-change: transform, opacity;
+}
