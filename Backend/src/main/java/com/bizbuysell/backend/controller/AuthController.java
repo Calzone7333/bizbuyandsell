@@ -32,4 +32,15 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> verify(@RequestBody com.bizbuysell.backend.dto.VerificationRequest request) {
         return ResponseEntity.ok(service.verifyOtp(request));
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody com.bizbuysell.backend.dto.ForgotPasswordRequest request) {
+        service.forgotPassword(request.getEmail());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<AuthenticationResponse> resetPassword(@RequestBody com.bizbuysell.backend.dto.ResetPasswordRequest request) {
+        return ResponseEntity.ok(service.resetPassword(request.getEmail(), request.getOtp(), request.getNewPassword()));
+    }
 }

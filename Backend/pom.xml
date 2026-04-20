@@ -9,9 +9,9 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.bizbuysell</groupId>
-  <artifactId>backend</artifactId>
+  <artifactId>bizbuysell-backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>backend</name>
+  <name>bizbuysell-backend</name>
   <description>Backend for BizBuySell Application</description>
   <properties>
     <java.version>17</java.version>

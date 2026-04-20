@@ -12,5 +12,10 @@ E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\Au
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\config\ApplicationConfig.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\AuthController.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\JwtService.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\ResetPasswordRequest.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\UserService.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\UserController.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\RegisterRequest.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\exception\GlobalExceptionHandler.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\ForgotPasswordRequest.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\LoginRequest.java

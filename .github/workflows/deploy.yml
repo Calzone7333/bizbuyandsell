@@ -58,7 +58,7 @@ jobs:
           ssh -p 19919 -o StrictHostKeyChecking=no prakash@103.181.108.248 "mkdir -p /home/prakash/apps/bizbuysell/Backend/target"
           
           rsync -avz -e "ssh -p 19919 -o StrictHostKeyChecking=no" \
-          Backend/target/backend-0.0.1-SNAPSHOT.jar \
+          Backend/target/bizbuysell-backend-0.0.1-SNAPSHOT.jar \
           prakash@103.181.108.248:/home/prakash/apps/bizbuysell/Backend/target/
 
       ############################
@@ -101,12 +101,12 @@ jobs:
 
             # Stop existing backend on port 8086
             echo "Stopping existing app..."
-            fuser -k 8086/tcp || pkill -f 'backend' || true
+            fuser -k 8086/tcp || pkill -f 'bizbuysell-backend' || true
             sleep 5 # Wait for the port to be fully cleared
             
             # Start new backend in background
             echo "Starting new app..."
-            nohup java -jar target/backend-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+            nohup java -jar target/bizbuysell-backend-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
             
             echo "BizBuySell Deployment Complete! Please wait 15-30 seconds for the app to start."
           EOF

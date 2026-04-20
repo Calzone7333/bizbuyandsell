@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-sell',
@@ -32,14 +33,14 @@ import { FormsModule } from '@angular/forms';
       <!-- MINIMAL TOP BAR -->
       <div class="h-16 border-b border-slate-100 bg-white flex items-center justify-between px-8 z-50">
         <div class="flex items-center gap-4">
-           <button class="text-slate-300 hover:text-slate-600 transition-colors">
+           <button (click)="goBack()" class="text-slate-300 hover:text-slate-600 transition-colors">
               <span class="material-symbols-outlined text-[20px]">close</span>
            </button>
            <h1 class="text-[13px] font-bold text-[#192830] uppercase tracking-widest pl-4 border-l border-slate-100">Sell a Business Portal</h1>
         </div>
         <div class="flex items-center gap-4">
            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Listing ID: BXB-8821</span>
-           <button class="px-6 py-2 bg-slate-50 border border-slate-100 text-[#192830] text-[10px] font-bold uppercase tracking-widest rounded shadow-sm">Save & Exit</button>
+           <button (click)="goBack()" class="px-6 py-2 bg-slate-50 border border-slate-100 text-[#192830] text-[10px] font-bold uppercase tracking-widest rounded shadow-sm hover:bg-slate-100 transition-all">Save & Exit</button>
            <button class="px-8 py-2 bg-[#192830] text-white text-[10px] font-bold uppercase tracking-widest rounded shadow-lg">Publish</button>
         </div>
       </div>
@@ -196,6 +197,8 @@ export class SellComponent implements OnInit {
    showValuationPrompt = false;
    showValuationDocs = false;
 
+   constructor(private router: Router) {}
+
    // FORM DATA
    listingForm = {
       entityName: '',
@@ -251,5 +254,9 @@ export class SellComponent implements OnInit {
       this.showValuationPrompt = false;
       this.showValuationDocs = false;
       this.currentMainStep = Math.min(this.currentMainStep + 1, this.mainSteps.length - 1);
+   }
+
+   goBack() {
+      this.router.navigate(['/dashboard']);
    }
 }

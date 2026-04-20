@@ -28,7 +28,7 @@ gsap.registerPlugin(ScrollTrigger);
             <a id="tour-buy" class="nav-link" routerLink="/browse">BUY BUSINESS</a>
           </div>
           <div #navItem class="nav-item-group opacity-0">
-            <a id="tour-sell" class="nav-link" routerLink="/dashboard" [queryParams]="{ view: 'sell' }">SELL BUSINESS</a>
+            <a id="tour-sell" class="nav-link" routerLink="/sell">SELL BUSINESS</a>
           </div>
           <div #navItem class="nav-item-group opacity-0">
             <a id="tour-investment" class="nav-link" routerLink="/browse">INVESTMENT</a>
@@ -69,19 +69,18 @@ gsap.registerPlugin(ScrollTrigger);
           <ng-container *ngIf="authService.isLoggedIn()">
             <div class="flex items-center gap-6 h-full">
               <!-- Thin-Stroke Alert Hub -->
-              <button class="relative flex items-center justify-center text-slate-400 hover:text-slate-900 transition-colors">
-                <span class="material-symbols-outlined text-[24px] font-thin">notifications</span>
-                <span class="absolute top-0 -right-0.5 w-2 h-2 bg-[#FF7C2A] rounded-full border border-white"></span>
+              <button class="relative flex items-center justify-center transition-transform active:scale-95 text-slate-600">
+                <img *ngIf="hasNotifications" src="/icons/Bell.gif" alt="Notifications" class="w-7 h-7 object-contain">
+                <i *ngIf="!hasNotifications" class="fa-regular fa-bell text-[20px]"></i>
               </button>
 
               <div id="tour-account" class="relative group h-full flex items-center">
                 <!-- Profile Identity Trigger -->
                 <button class="flex items-center gap-3 transition-transform active:scale-95 group/avatar">
                   <!-- Perfect Circle Photo Avatar -->
-                  <div class="w-9 h-9 rounded-full border-2 border-yellow-400 p-[1.5px] bg-white overflow-hidden flex items-center justify-center shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100" 
-                         alt="Sara Tancredi" 
-                         class="w-full h-full object-cover rounded-full">
+                  <!-- Professional Initials Avatar -->
+                  <div class="w-9 h-9 rounded-full bg-[#09337B] flex items-center justify-center shadow-sm border-2 border-white transition-all group-hover/avatar:ring-2 group-hover/avatar:ring-[#FF7C2A]">
+                    <span class="text-[14px] font-bold text-white">{{ userInitials }}</span>
                   </div>
                   
                   <!-- Label & Chevron -->
@@ -91,58 +90,73 @@ gsap.registerPlugin(ScrollTrigger);
                   </div>
                 </button>
 
-              <!-- Dropdown Menu (REDUCED SIZE) -->
-              <div class="absolute right-0 top-[75%] pt-6 opacity-0 translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-[110]">
-                <div class="w-[220px] bg-white rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-zinc-100 p-2 flex flex-col gap-0.5">
-                  
-                  <a *ngIf="authService.isAdmin()" routerLink="/admin" class="modern-dropdown-link bg-zinc-50/80 group">
-                    <span class="material-symbols-outlined icon-v text-[#09337B]">dashboard</span>
-                    <span class="flex-1">Admin Panel</span>
-                  </a>
-                  
-                  <a routerLink="/dashboard" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v">dashboard</span>
-                    <span class="flex-1">Member Dashboard</span>
-                  </a>
-                  
-                  <a routerLink="/profile" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v">person</span>
-                    <span class="flex-1">My Profile</span>
-                  </a>
+                <!-- Dropdown Menu (REDUCED SIZE) -->
+                <div class="absolute right-0 top-[75%] pt-6 opacity-0 translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-[110]">
+                  <div class="w-[220px] bg-white rounded-[20px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-zinc-100 p-2 flex flex-col gap-0.5">
+                    
+                    <!-- ADMIN SPECIFIC ITEMS -->
+                    <ng-container *ngIf="authService.isAdmin()">
+                      <a routerLink="/admin" class="modern-dropdown-link bg-zinc-50/80 group">
+                        <span class="material-symbols-outlined icon-v text-[#09337B]">dashboard</span>
+                        <span class="flex-1">Admin Panel</span>
+                      </a>
+                      <a routerLink="/profile/settings" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">settings</span>
+                        <span class="flex-1">Account Settings</span>
+                      </a>
+                    </ng-container>
+                    
+                    <!-- USER SPECIFIC ITEMS -->
+                    <ng-container *ngIf="!authService.isAdmin()">
+                      <a routerLink="/sell" class="modern-dropdown-link group text-[#FF7C2A] bg-orange-50/50">
+                        <span class="material-symbols-outlined icon-v text-[#FF7C2A]">sell</span>
+                        <span class="flex-1 font-bold">Sell A Business</span>
+                      </a>
 
-                  <a href="#" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v">favorite</span>
-                    <span class="flex-1">Saved Businesses</span>
-                  </a>
-                  
-                  <a href="#" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v">list_alt</span>
-                    <span class="flex-1">My Listings</span>
-                    <span class="pro-badge">
-                       <span class="material-symbols-outlined text-[9px]">bolt</span>
-                       PRO
-                    </span>
-                  </a>
-                  
-                  <a href="#" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v">settings</span>
-                    <span class="flex-1">Settings</span>
-                  </a>
+                      <a routerLink="/profile/settings" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">settings</span>
+                        <span class="flex-1">Account Settings</span>
+                      </a>
 
-                  <div class="h-px bg-zinc-100/60 my-1.5 mx-3"></div>
-                  
-                  <a href="#" class="modern-dropdown-link group">
-                    <span class="material-symbols-outlined icon-v text-zinc-400">help_outline</span>
-                    <span class="flex-1 text-zinc-400">Help center</span>
-                  </a>
-                  
-                  <button (click)="onLogout()" class="modern-dropdown-link text-zinc-600 hover:text-red-500 hover:bg-red-50/50 group">
-                    <span class="material-symbols-outlined icon-v text-zinc-400 group-hover:text-red-500">logout</span>
-                    <span class="flex-1 text-left">Sign out</span>
-                  </button>
+                      <a href="#" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">corporate_fare</span>
+                        <span class="flex-1">My Entities</span>
+                      </a>
 
+                      <a href="#" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">favorite</span>
+                        <span class="flex-1">Saved Businesses</span>
+                      </a>
+                      
+                      <a href="#" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">list_alt</span>
+                        <span class="flex-1">My Listings</span>
+                        <span class="pro-badge">
+                          <span class="material-symbols-outlined text-[9px]">bolt</span>
+                          PRO
+                        </span>
+                      </a>
+                      
+                      <a href="#" class="modern-dropdown-link group">
+                        <span class="material-symbols-outlined icon-v">notifications_active</span>
+                        <span class="flex-1">Market Alerts</span>
+                      </a>
+                    </ng-container>
+
+                    <div class="h-px bg-zinc-100/60 my-1.5 mx-3"></div>
+                    
+                    <a href="#" class="modern-dropdown-link group">
+                      <span class="material-symbols-outlined icon-v text-zinc-400">help_outline</span>
+                      <span class="flex-1 text-zinc-400">Help center</span>
+                    </a>
+                    
+                    <button (click)="onLogout()" class="modern-dropdown-link text-zinc-600 hover:text-red-500 hover:bg-red-50/50 group">
+                      <span class="material-symbols-outlined icon-v text-zinc-400 group-hover:text-red-500">logout</span>
+                      <span class="flex-1 text-left">Sign out</span>
+                    </button>
+
+                  </div>
                 </div>
-              </div>
             </div>
           </div>
         </ng-container>
@@ -216,6 +230,7 @@ export class NavbarComponent implements AfterViewInit {
   @ViewChild('loginBtn') loginBtn!: ElementRef;
 
   isMenuOpen = false;
+  hasNotifications = false;
 
   constructor(public authService: AuthService, private router: Router) {}
 

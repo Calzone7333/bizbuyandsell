@@ -58,6 +58,23 @@ export class AuthService {
     this.loggedInSubject.next(false);
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(resetData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, resetData).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userEmail', response.email);
+          localStorage.setItem('userRole', response.role);
+          this.loggedInSubject.next(true);
+        }
+      })
+    );
+  }
+
   isLoggedIn(): boolean {
     return this.loggedInSubject.value;
   }

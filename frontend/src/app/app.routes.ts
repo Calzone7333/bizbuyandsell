@@ -6,7 +6,7 @@ import { RegisterComponent } from './register.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { AdminDashboardComponent } from './admin-dashboard.component';
 import { SellComponent } from './sell.component';
-import { UserDashboardComponent } from './user-dashboard.component';
+import { SettingsComponent } from './settings.component';
 import { PrivacyPolicyComponent } from './privacy-policy.component';
 
 export const routes: Routes = [
@@ -15,8 +15,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'profile/settings', component: SettingsComponent },
   { path: 'sell', component: SellComponent },
-  { path: 'dashboard', component: UserDashboardComponent },
   { path: 'admin', component: AdminDashboardComponent },
   { path: 'privacy', component: PrivacyPolicyComponent }
 ];

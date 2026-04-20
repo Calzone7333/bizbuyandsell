@@ -103,6 +103,43 @@ public class AuthenticationService {
                 .build();
     }
 
+    public void forgotPassword(String email) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+        
+        String otp = generateOtp();
+        user.setOtp(otp);
+        repository.save(user);
+        
+        try {
+            emailService.sendOtpEmail(email, otp);
+        } catch (Exception e) {
+            System.err.println("Failed to send OTP email: " + e.getMessage());
+        }
+    }
+
+    public AuthenticationResponse resetPassword(String email, String otp, String newPassword) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        if (user.getOtp() == null || !user.getOtp().equals(otp)) {
+            throw new RuntimeException("Invalid OTP code");
+        }
+        
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setOtp(null);
+        user.setEnabled(true);
+        user.setActive(true); // Ensure account is active
+        repository.save(user);
+
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .email(user.getEmail())
+                .role(user.getRole().name())
+                .build();
+    }
+
     private String generateOtp() {
         Random random = new Random();
         return String.format("%06d", random.nextInt(999999));

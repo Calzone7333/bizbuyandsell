@@ -34,8 +34,26 @@ public class User implements UserDetails {
 
     private String otp;
 
+    private String firstName;
+    private String lastName;
+    private String jobTitle;
+    @Column(length = 2000)
+    private String bio;
+    private String location;
+
     @Builder.Default
     private boolean enabled = false;
+
+    @Builder.Default
+    private boolean active = true;
+
+    private java.time.LocalDateTime deletionRequestedAt;
+
+    // Notification Preferences
+    @Builder.Default
+    private boolean emailNotifications = true;
+    @Builder.Default
+    private boolean pushNotifications = false;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -67,6 +85,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return enabled && active;
     }
 }

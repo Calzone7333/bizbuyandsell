@@ -18,11 +18,8 @@ import { UserManagementComponent } from './admin/user-management.component';
       <aside class="w-64 bg-gray-50/50 dark:bg-gray-950 border-r border-gray-100 dark:border-gray-800 flex flex-col z-50">
         
         <!-- Logo Section -->
-        <div class="px-7 py-8 flex items-center gap-2">
-           <div class="w-6 h-6 bg-[#4185D0] rounded flex items-center justify-center">
-              <span class="material-symbols-outlined text-white !text-[14px]">storefront</span>
-           </div>
-           <span style="font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 900; line-height: 28px; color: rgb(25, 40, 48);" class="tracking-tighter">bizbuyandsell</span>
+        <div class="px-7 py-8 flex items-center justify-center">
+           <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[56px] w-auto transition-transform hover:scale-105">
         </div>
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">

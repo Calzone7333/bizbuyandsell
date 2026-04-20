@@ -20,7 +20,7 @@ import { AuthService } from './auth.service';
             <p class="text-slate-400 text-xs mt-2 uppercase tracking-[0.2em] font-bold">Secure Institutional Access</p>
           </div>
 
-          <form (submit)="onLogin()" class="w-full max-w-[340px] space-y-7 mb-8">
+          <form (submit)="$event.preventDefault(); onLogin()" class="w-full max-w-[340px] space-y-7 mb-8">
             <!-- Email Field -->
             <div class="space-y-2">
               <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Corporate Email</label>
@@ -85,7 +85,7 @@ import { AuthService } from './auth.service';
           <div #character class="relative z-10 opacity-0 translate-y-8">
             <img alt="Professional working" 
                  class="w-[300px] lg:w-[350px] 2xl:w-[420px] drop-shadow-2xl" 
-                 src="login/login.png">
+                 src="login/login.png" width="420" height="420">
           </div>
         </section>
 
