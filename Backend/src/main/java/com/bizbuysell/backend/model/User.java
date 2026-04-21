@@ -58,6 +58,14 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // KYC / Identity Verification
+    @Builder.Default
+    private boolean kycVerified = false;
+    private String idProofType; // e.g., PAN, Aadhar, Passport
+    private String idProofUrl;
+    private String gstNumber; // For sellers
+    private String companyName;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

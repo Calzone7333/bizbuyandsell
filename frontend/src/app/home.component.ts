@@ -185,9 +185,9 @@ gsap.registerPlugin(ScrollTrigger);
     }
   `],
   template: `
-    <main class="pt-20 overflow-x-hidden">
+    <main class="pt-28 lg:pt-0 overflow-x-hidden w-full">
       <!-- Hero Section -->
-      <section #heroSection class="relative h-[calc(100vh-80px)] flex items-center overflow-hidden">
+      <section #heroSection class="relative min-h-[600px] lg:h-[calc(100vh-80px)] flex items-center lg:items-start lg:pt-24 overflow-hidden">
         <!-- Hero Background Image & Bottom Blend Fade -->
         <div class="absolute inset-0 -z-10">
           <img class="w-full h-full object-cover" src="/Hero/HeroBackgroundimage.png" alt="Hero Background">
@@ -199,11 +199,16 @@ gsap.registerPlugin(ScrollTrigger);
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <!-- Text Content -->
             <div class="lg:col-span-6 order-1 lg:order-1 text-center lg:text-left">
-              <h1 #heroHeading class="text-[32px] lg:text-[44px] leading-[1.1] font-[800] font-poppins text-zinc-900 mb-4 lg:mb-6 tracking-tight max-w-2xl opacity-0">
-                India's Most Trusted <br class="hidden lg:block"> Business Marketplace
+
+              <h1 #heroHeading class="text-[40px] md:text-[52px] leading-[1.15] font-[800] font-poppins text-zinc-900 mb-8 lg:mb-10 tracking-tight max-w-2xl opacity-0 px-2 lg:px-0">
+                India’s First <span class="text-[#09337B]">CA-Verified</span> <br class="hidden lg:block">
+                <span class="relative inline-block">
+                  Business Marketplace
+                  <img src="/Hero/textunderline.png" alt="underline" class="absolute -bottom-2 md:-bottom-5 left-[-5%] md:left-[-10%] w-[110%] md:w-[120%] h-2 md:h-4 pointer-events-none object-contain">
+                </span>
               </h1>
-              <p #heroText class="text-zinc-600 max-w-xl mx-auto lg:mx-0 mb-6 lg:mb-8 opacity-0" style="font-size: 16px; font-weight: 400; line-height: 32px; font-family: 'Inter', sans-serif;">
-                High-stakes transactions with institutional-grade transparency.
+              <p #heroText class="text-zinc-600 max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-8 opacity-0 px-4 lg:px-0" style="font-size: 15px; lg:font-size: 16px; font-weight: 400; line-height: 28px; lg:line-height: 32px; font-family: 'Inter', sans-serif;">
+                India’s first CA-verified business marketplace.
               </p>
               <!-- Editorial Search Shell -->
               <div #searchBox class="bg-white px-1.5 py-1.5 rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.08)] flex flex-col xl:flex-row items-center gap-1.5 max-w-4xl w-full mx-auto lg:mx-0 opacity-0 relative z-20">
@@ -246,8 +251,8 @@ gsap.registerPlugin(ScrollTrigger);
               </div>
             </div>
             
-            <div class="lg:col-span-6 order-2 lg:order-2 relative h-[400px] sm:h-[500px] lg:h-full flex items-center justify-center">
-              <div #phoneGroup class="relative scale-[0.45] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.82] xl:scale-[0.88] origin-center transition-transform duration-700 h-full flex items-center justify-center">
+            <div class="lg:col-span-6 order-2 lg:order-2 relative h-[450px] sm:h-[500px] lg:h-full flex items-center justify-center mt-8 lg:mt-0">
+              <div #phoneGroup class="relative scale-[0.65] sm:scale-[0.75] md:scale-[0.85] lg:scale-[0.82] xl:scale-[0.88] origin-center transition-transform duration-700 h-full flex items-center justify-center">
                 
                 <!-- Ecosystem Group: Rings + Icons -->
                 <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] flex items-center justify-center">
@@ -323,7 +328,7 @@ gsap.registerPlugin(ScrollTrigger);
                 </div>
 
                 <!-- Main Hero Image (Phone) -->
-                <img #heroMainImg class="relative z-10 w-auto h-auto max-h-[320px] sm:max-h-[450px] lg:max-h-[600px] opacity-0 lg:translate-x-16" src="/Hero/Heroimage1.png" alt="Trusted Business Marketplace Illustration">
+                <img #heroMainImg class="relative z-10 w-auto h-auto max-h-[380px] sm:max-h-[500px] lg:max-h-[600px] opacity-0 lg:translate-x-16" src="/Hero/Heroimage1.png" alt="Trusted Business Marketplace Illustration">
               </div>
             </div>
           </div>
@@ -841,18 +846,17 @@ export class HomeComponent implements AfterViewInit {
     if (isFirst) HomeComponent.firstLoad = false;
 
     // 1. Properly Smooth Hero Entrance (Advanced Staggered Reveal)
-    const heroTl = gsap.timeline({ 
-      defaults: { 
-        duration: 1.2, 
-        ease: 'expo.out' 
-      } 
+    const heroTl = gsap.timeline({
+      defaults: {
+        duration: 1.2,
+        ease: 'expo.out'
+      }
     });
 
-    // Dramatic Multi-Directional Entrance
     heroTl.fromTo(this.heroHeading.nativeElement,
       { x: -150, opacity: 0, scale: 0.95 },
       { x: 0, opacity: 1, scale: 1, duration: 1.6, ease: 'expo.out' },
-      `+=${baseDelay}` // Dynamic delay based on load state
+      `+=${baseDelay}`
     );
 
     heroTl.fromTo(this.heroText.nativeElement,
@@ -870,19 +874,19 @@ export class HomeComponent implements AfterViewInit {
     // Hero Graphic Entrance (From Right) + Impact Shake (Right to Left)
     gsap.fromTo(this.heroMainImg.nativeElement,
       { x: 250, opacity: 0, scale: 0.8, rotate: -5 },
-      { 
-        x: 0, 
-        opacity: 1, 
-        scale: 1, 
-        rotate: 0, 
-        duration: 2.2, 
-        delay: baseDelay + 0.1, 
+      {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        rotate: 0,
+        duration: 2.2,
+        delay: baseDelay + 0.1,
         ease: 'elastic.out(1.2, 0.5)',
         onComplete: () => {
           // Sharp Initial Right-to-Left Shake
           const initialShake = gsap.timeline();
           initialShake.to(this.heroMainImg.nativeElement, { x: -10, duration: 0.05, repeat: 3, yoyo: true });
-          
+
           // Continuous Loop: Right-to-Left Floating Shake
           const shakeTl = gsap.timeline({ repeat: -1, yoyo: true });
           shakeTl.to(this.heroMainImg.nativeElement, {
@@ -903,11 +907,11 @@ export class HomeComponent implements AfterViewInit {
     );
 
     // 2. High-Precision Ring 'Reveal' Effect
-    gsap.fromTo(this.ringSVG.nativeElement, 
+    gsap.fromTo(this.ringSVG.nativeElement,
       { scale: 0.7, opacity: 0, rotate: -45 },
       { scale: 1, opacity: 1, rotate: 0, duration: 2.5, delay: baseDelay - 0.2, ease: 'power3.out' }
     );
-    
+
     // Individually Animating Rings with Dash-array Reveal logic
     [this.ring1, this.ring2, this.ring3].forEach((ring, i) => {
       const originalArray = ring.nativeElement.getAttribute('stroke-dasharray');
@@ -916,7 +920,7 @@ export class HomeComponent implements AfterViewInit {
         { strokeDasharray: originalArray, opacity: 1, duration: 2, delay: baseDelay + (i * 0.15), ease: 'power2.out' }
       );
     });
-    
+
     // Continuous Gentle Orbital Rotation for Rings
     [this.ring1, this.ring3].forEach((ring, i) => {
       gsap.to(ring.nativeElement, {
@@ -942,13 +946,13 @@ export class HomeComponent implements AfterViewInit {
     this.floatIcons.forEach((icon, i) => {
       gsap.fromTo(icon.nativeElement,
         { scale: 0, opacity: 0, y: 30 },
-        { 
-          scale: 1, 
-          opacity: 1, 
+        {
+          scale: 1,
+          opacity: 1,
           y: 0,
-          duration: 1.2, 
-          delay: baseDelay + 0.5 + (i * 0.15), 
-          ease: 'back.out(1.7)' 
+          duration: 1.2,
+          delay: baseDelay + 0.5 + (i * 0.15),
+          ease: 'back.out(1.7)'
         }
       );
     });
@@ -970,7 +974,7 @@ export class HomeComponent implements AfterViewInit {
 
     // 5. Directional "Split Reveal" Animation System
     const allItems = this.scrollItems.toArray();
-    
+
     allItems.forEach((item, index) => {
       item.nativeElement.style.willChange = 'transform, opacity';
 
@@ -992,10 +996,10 @@ export class HomeComponent implements AfterViewInit {
       }
 
       gsap.fromTo(item.nativeElement,
-        { 
+        {
           x: xPos,
-          y: yPos, 
-          opacity: 0, 
+          y: yPos,
+          opacity: 0,
           scale: 0.85,
           rotate: rotateDeg,
           filter: 'blur(12px)'

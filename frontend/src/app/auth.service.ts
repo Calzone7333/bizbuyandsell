@@ -32,6 +32,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userEmail', response.email);
           localStorage.setItem('userRole', response.role);
+          localStorage.setItem('kycVerified', String(response.kycVerified));
           this.loggedInSubject.next(true);
         }
       })
@@ -45,6 +46,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userEmail', response.email);
           localStorage.setItem('userRole', response.role);
+          localStorage.setItem('kycVerified', String(response.kycVerified));
           this.loggedInSubject.next(true);
         }
       })
@@ -55,6 +57,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('kycVerified');
     this.loggedInSubject.next(false);
   }
 
@@ -69,6 +72,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userEmail', response.email);
           localStorage.setItem('userRole', response.role);
+          localStorage.setItem('kycVerified', String(response.kycVerified));
           this.loggedInSubject.next(true);
         }
       })
@@ -85,5 +89,9 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.getUserRole() === 'ADMIN';
+  }
+
+  isKycVerified(): boolean {
+    return localStorage.getItem('kycVerified') === 'true';
   }
 }

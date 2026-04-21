@@ -1,32 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/api/v1/user';
+  private apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8086/api/v1/user'
+    : `http://${window.location.hostname}:8086/api/v1/user`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/profile`);
+  private getHeaders() {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  updateProfile(profileData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/profile`, profileData);
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/admin/all`, { headers: this.getHeaders() });
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/profile`, { headers: this.getHeaders() });
+  }
+
+  updateProfile(profile: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/profile`, profile, { headers: this.getHeaders() });
   }
 
   changePassword(passwords: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/password`, passwords);
+    return this.http.put(`${this.apiUrl}/password`, passwords, { headers: this.getHeaders() });
   }
 
   softDelete(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/soft-delete`, {});
-  }
-
-  reactivate(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reactivate`, { email });
+    return this.http.delete(`${this.apiUrl}/deactivate`, { headers: this.getHeaders() });
   }
 }

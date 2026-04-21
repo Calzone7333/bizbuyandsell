@@ -284,7 +284,7 @@ export class SettingsComponent implements OnInit {
       next: (data) => {
         this.profileData = { ...this.profileData, ...data };
       },
-      error: (err) => console.error('Error loading profile', err)
+      error: (err: any) => console.error('Error loading profile', err)
     });
   }
 
@@ -295,7 +295,7 @@ export class SettingsComponent implements OnInit {
         this.loading = false;
         alert('Profile updated successfully');
       },
-      error: (err) => {
+      error: (err: any) => {
         this.loading = false;
         alert('Failed to update profile');
       }
@@ -312,7 +312,7 @@ export class SettingsComponent implements OnInit {
       newPassword: this.passwordData.newPassword
     }).subscribe({
       next: () => alert('Password updated successfully'),
-      error: (err) => alert('Error: ' + err.error?.error || 'Update failed')
+      error: (err: any) => alert('Error: ' + err.error?.error || 'Update failed')
     });
   }
 
@@ -324,7 +324,7 @@ export class SettingsComponent implements OnInit {
           localStorage.clear();
           window.location.href = '/login';
         },
-        error: (err) => alert('Deactivation failed')
+        error: (err: any) => alert('Deactivation failed')
       });
     }
   }

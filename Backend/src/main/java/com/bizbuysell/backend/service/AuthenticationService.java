@@ -31,11 +31,20 @@ public class AuthenticationService {
         }
 
         String otp = generateOtp();
+        Role userRole = Role.USER;
+        if (request.getRole() != null) {
+            try {
+                userRole = Role.valueOf(request.getRole().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                userRole = Role.USER;
+            }
+        }
+
         var user = User.builder()
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(userRole)
                 .otp(otp)
                 .enabled(false)
                 .build();
@@ -74,6 +83,7 @@ public class AuthenticationService {
                     .token(jwtToken)
                     .email(user.getEmail())
                     .role(user.getRole().name())
+                    .kycVerified(user.isKycVerified())
                     .build();
         } else {
             throw new RuntimeException("Invalid OTP code");
@@ -100,6 +110,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .email(user.getEmail())
                 .role(user.getRole().name())
+                .kycVerified(user.isKycVerified())
                 .build();
     }
 
@@ -137,6 +148,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .email(user.getEmail())
                 .role(user.getRole().name())
+                .kycVerified(user.isKycVerified())
                 .build();
     }
 

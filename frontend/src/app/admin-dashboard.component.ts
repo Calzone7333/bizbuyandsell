@@ -6,11 +6,25 @@ import { ListingsManagementComponent } from './admin/listings-management.compone
 import { DashboardHomeComponent } from './admin/dashboard-home.component';
 import { AnalyticsComponent } from './admin/analytics.component';
 import { UserManagementComponent } from './admin/user-management.component';
+import { CategoriesComponent } from './admin/categories.component';
+import { InvestmentsComponent } from './admin/investments.component';
+import { FranchiseComponent } from './admin/franchise.component';
+import { AdminProfileComponent } from './admin/admin-profile.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, ListingsManagementComponent, DashboardHomeComponent, AnalyticsComponent, UserManagementComponent],
+  imports: [
+    CommonModule, 
+    ListingsManagementComponent, 
+    DashboardHomeComponent, 
+    AnalyticsComponent, 
+    UserManagementComponent,
+    CategoriesComponent,
+    InvestmentsComponent,
+    FranchiseComponent,
+    AdminProfileComponent
+  ],
   template: `
     <div [class.dark]="isDarkMode()" class="bb-admin-container h-screen flex overflow-hidden bg-white dark:bg-gray-950 text-slate-800 duration-300">
       
@@ -19,7 +33,9 @@ import { UserManagementComponent } from './admin/user-management.component';
         
         <!-- Logo Section -->
         <div class="px-7 py-8 flex items-center justify-center">
-           <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[56px] w-auto transition-transform hover:scale-105">
+           <a routerLink="/" class="cursor-pointer transition-transform hover:scale-105">
+              <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[56px] w-auto">
+           </a>
         </div>
 
         <nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
@@ -65,17 +81,20 @@ import { UserManagementComponent } from './admin/user-management.component';
               </div>
 
               <div (click)="activeTab.set('categories')"
-                   class="flex items-center gap-3 px-3 py-2 text-[rgb(25,40,48)] hover:bg-gray-100 rounded-lg cursor-pointer">
+                   [class]="activeTab() === 'categories' ? 'bg-blue-50/50 text-[rgb(25,40,48)]' : 'text-[rgb(25,40,48)] hover:bg-gray-100'"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer">
                  <span class="material-symbols-outlined !text-[20px]">sell</span>
                  <span class="text-[13px] font-bold">Categories</span>
               </div>
               <div (click)="activeTab.set('investments')"
-                   class="flex items-center gap-3 px-3 py-2 text-[rgb(25,40,48)] hover:bg-gray-100 rounded-lg cursor-pointer">
+                   [class]="activeTab() === 'investments' ? 'bg-blue-50/50 text-[rgb(25,40,48)]' : 'text-[rgb(25,40,48)] hover:bg-gray-100'"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer">
                  <span class="material-symbols-outlined !text-[20px]">payments</span>
                  <span class="text-[13px] font-bold">Investments</span>
               </div>
               <div (click)="activeTab.set('franchise')"
-                   class="flex items-center gap-3 px-3 py-2 text-[rgb(25,40,48)] hover:bg-gray-100 rounded-lg cursor-pointer">
+                   [class]="activeTab() === 'franchise' ? 'bg-blue-50/50 text-[rgb(25,40,48)]' : 'text-[rgb(25,40,48)] hover:bg-gray-100'"
+                   class="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer">
                  <span class="material-symbols-outlined !text-[20px]">business_center</span>
                  <span class="text-[13px] font-bold">Franchise</span>
               </div>
@@ -85,9 +104,9 @@ import { UserManagementComponent } from './admin/user-management.component';
         <!-- BOTTOM STACK -->
         <div class="p-4 space-y-1 border-t border-gray-100 dark:border-gray-800">
             <div class="flex items-center justify-between px-3 py-2 text-[rgb(25,40,48)] hover:bg-gray-100 rounded-lg cursor-pointer">
-               <div class="flex items-center gap-3">
-                  <img src="/icons/Bell.gif" class="w-5 h-5 object-contain" alt="notify">
-                  <span class="text-[13px] font-bold">Notifications</span>
+               <div class="flex items-center gap-3 text-slate-400">
+                  <span class="material-symbols-outlined !text-[20px]">notifications</span>
+                  <span class="text-[13px] font-bold text-[#192830]">Notifications</span>
                </div>
                <span class="w-5 h-5 bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">5</span>
             </div>
@@ -136,22 +155,20 @@ import { UserManagementComponent } from './admin/user-management.component';
               </div>
               
               <div class="flex items-center gap-1">
-                 <button class="p-2 hover:bg-slate-50 rounded-full transition-colors relative">
-                    <img src="/icons/Bell.gif" class="w-6 h-6 object-contain" alt="notifications">
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                 </button>
-              </div>
-              
-              <div class="cursor-pointer overflow-hidden mx-2">
-                 <img src="/icons/Profile.gif" class="w-8 h-8 object-cover">
-              </div>
+                  <button class="p-2 hover:bg-slate-50 rounded-full transition-colors relative text-slate-500">
+                     <span class="material-symbols-outlined !text-[24px]">notifications</span>
+                     <span class="absolute top-2 right-2.5 w-1.5 h-1.5 bg-rose-500 rounded-full border border-white"></span>
+                  </button>
+               </div>
+                            <div class="cursor-pointer overflow-hidden mx-2 text-slate-500 hover:text-[#09337B] transition-colors">
+                  <span class="material-symbols-outlined !text-[28px]">account_circle</span>
+               </div>
 
-              <div class="flex items-center ml-2 border-l border-gray-100 pl-4">
-                 <img (click)="onLogout()" src="/icons/Logout.gif" 
-                      style="filter: invert(15%) sepia(95%) saturate(6932%) hue-rotate(358deg) brightness(95%) contrast(112%);"
-                      class="w-6 h-6 object-contain opacity-80 hover:opacity-100 cursor-pointer transition-all active:scale-95" 
-                      title="Sign Out">
-              </div>
+               <div class="flex items-center ml-2 border-l border-gray-100 pl-4">
+                  <span (click)="onLogout()" 
+                        class="material-symbols-outlined !text-[22px] text-rose-500 hover:text-rose-600 cursor-pointer transition-all active:scale-95" 
+                        title="Sign Out">logout</span>
+               </div>
            </div>
         </header>
 
@@ -171,11 +188,17 @@ import { UserManagementComponent } from './admin/user-management.component';
         <!-- ANALYTICS MODULE -->
         <app-analytics *ngIf="activeTab() === 'analytics'"></app-analytics>
 
-        <!-- SETTINGS MODULE -->
-        <div *ngIf="activeTab() === 'settings'" class="flex-1 overflow-y-auto p-10 animate-slide-up">
-           <h1 class="text-3xl font-bold tracking-tighter dark:text-white">System Settings</h1>
-           <p class="text-slate-400">Module loading...</p>
-        </div>
+        <!-- CATEGORIES MODULE -->
+        <app-categories *ngIf="activeTab() === 'categories'"></app-categories>
+
+        <!-- INVESTMENTS MODULE -->
+        <app-investments *ngIf="activeTab() === 'investments'"></app-investments>
+
+        <!-- FRANCHISE MODULE -->
+        <app-franchise *ngIf="activeTab() === 'franchise'"></app-franchise>
+
+        <!-- SETTINGS / PROFILE MODULE -->
+        <app-admin-profile *ngIf="activeTab() === 'settings'"></app-admin-profile>
 
       </main>
     </div>

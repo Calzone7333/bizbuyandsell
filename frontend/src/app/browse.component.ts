@@ -1,8 +1,10 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ListingService } from './listing.service';
+import { AuthService } from './auth.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,14 +12,18 @@ interface Listing {
   id: number;
   title: string;
   category: string;
-  price: number;
-  revenue: number;
-  profit: number;
-  location: string;
+  askingPrice: number;
+  annualRevenue: number;
+  netProfit: number;
+  city: string;
+  state: string;
   description: string;
-  imageUrl: string;
-  verified: boolean;
-  type: 'ESTABLISHED' | 'FRANCHISE' | 'START-UP';
+  imageUrls: string[];
+  isVerified: boolean;
+  verificationStatus: string;
+  businessName: string;
+  exactAddress: string;
+  accessApproved: boolean;
 }
 
 @Component({
@@ -56,14 +62,25 @@ interface Listing {
 
       <div class="flex flex-col lg:flex-row gap-12">
         <!-- Left Sidebar: Filter Panel (30%) -->
-        <aside class="w-full lg:w-[30%] space-y-10 order-2 lg:order-1">
-          <div class="bg-surface-container-low p-6 lg:p-8 rounded-2xl border border-zinc-100/50 shadow-sm sticky top-28">
-            <div class="flex items-center justify-between mb-8">
-              <h2 class="font-headline font-bold text-xl tracking-tight text-[#09337B]">Refine Portfolio</h2>
-              <button 
-                (click)="resetFilters()"
-                class="text-[10px] uppercase tracking-widest text-[#09337B] font-bold hover:underline transition-all">Clear All</button>
-            </div>
+        <div class="w-full lg:w-[30%] order-2 lg:order-1">
+          <!-- Mobile Filter Toggle -->
+          <button 
+            (click)="showMobileFilters = !showMobileFilters"
+            class="lg:hidden w-full flex items-center justify-center gap-2 p-4 bg-white border border-zinc-200 rounded-xl font-bold text-[#09337B] mb-6">
+            <span class="material-symbols-outlined">{{ showMobileFilters ? 'close' : 'tune' }}</span>
+            {{ showMobileFilters ? 'Hide Filters' : 'Show Filters & Sorting' }}
+          </button>
+
+          <aside 
+            [class.hidden]="!showMobileFilters && isMobile"
+            class="w-full space-y-10 lg:block">
+            <div class="bg-surface-container-low p-6 lg:p-8 rounded-2xl border border-zinc-100/50 shadow-sm sticky top-28">
+              <div class="flex items-center justify-between mb-8">
+                <h2 class="font-headline font-bold text-xl tracking-tight text-[#09337B]">Refine Portfolio</h2>
+                <button 
+                  (click)="resetFilters()"
+                  class="text-[10px] uppercase tracking-widest text-[#09337B] font-bold hover:underline transition-all">Clear All</button>
+              </div>
             
             <!-- Keyword Search -->
             <div class="mb-10">
@@ -98,41 +115,13 @@ interface Listing {
             <div class="mb-10">
               <div class="flex justify-between items-end mb-4">
                 <label class="text-[10px] font-bold uppercase tracking-widest text-outline">Max Investment</label>
-                <span class="text-sm font-bold text-[#09337B]">\${{ (filters.maxPrice | number) }}M+</span>
+                <span class="text-sm font-bold text-[#09337B]">₹{{ (filters.maxPrice | number) }}Cr+</span>
               </div>
               <input 
                 [(ngModel)]="filters.maxPrice"
                 (input)="applyFilters()"
                 class="w-full h-1.5 bg-surface-container-highest rounded-full appearance-none cursor-pointer accent-[#09337B]" 
-                max="50" min="0" step="0.5" type="range"/>
-            </div>
-
-            <!-- Business Type -->
-            <div class="mb-10">
-              <label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-4">Business Model</label>
-              <div class="space-y-3">
-                <label *ngFor="let type of ['ESTABLISHED', 'FRANCHISE', 'START-UP']" class="flex items-center gap-3 cursor-pointer group">
-                  <input 
-                    type="checkbox" 
-                    [(ngModel)]="filters.selectedTypes[type]"
-                    (change)="applyFilters()"
-                    class="w-4 h-4 rounded border-outline-variant text-[#09337B] focus:ring-[#09337B]/20 transition-all"/>
-                  <span class="text-sm font-medium text-zinc-700 group-hover:text-[#09337B] transition-colors capitalize">{{type.toLowerCase()}}</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Profit Range -->
-            <div class="mb-10">
-              <div class="flex justify-between items-end mb-4">
-                <label class="text-[10px] font-bold uppercase tracking-widest text-outline">Min Annual Profit</label>
-                <span class="text-sm font-bold text-[#FF7C2A]">\${{ (filters.minProfit | number) }}k+</span>
-              </div>
-              <input 
-                [(ngModel)]="filters.minProfit"
-                (input)="applyFilters()"
-                class="w-full h-1.5 bg-surface-container-highest rounded-full appearance-none cursor-pointer accent-[#FF7C2A]" 
-                max="10000" min="0" step="100" type="range"/>
+                max="500" min="0" step="5" type="range"/>
             </div>
 
             <!-- Verified Toggle -->
@@ -149,32 +138,18 @@ interface Listing {
               </label>
             </div>
 
-            <!-- Location Dropdown -->
-            <div class="mb-10">
-              <label class="block text-[10px] font-bold uppercase tracking-widest text-outline mb-3">Global Location</label>
-              <select 
-                [(ngModel)]="filters.location"
-                (change)="applyFilters()"
-                class="w-full bg-white/50 border border-outline-variant/30 rounded-lg px-4 py-3 focus:border-[#09337B] outline-none text-sm font-medium">
-                <option value="Any">All Regions</option>
-                <option value="North America">North America</option>
-                <option value="European Union">European Union</option>
-                <option value="Asia Pacific">Asia Pacific</option>
-                <option value="Middle East">Middle East</option>
-              </select>
-            </div>
-
             <!-- Advisory CTA -->
-            <div class="bg-[#09337B] p-8 rounded-2xl text-white relative overflow-hidden mt-12 hover:scale-[1.02] transition-transform duration-500 cursor-pointer group shadow-2xl shadow-[#09337B]/20">
+            <div (click)="bookConsultation()" class="bg-[#09337B] p-8 rounded-2xl text-white relative overflow-hidden mt-12 hover:scale-[1.02] transition-transform duration-500 cursor-pointer group shadow-2xl shadow-[#09337B]/20">
               <div class="relative z-10">
-                <h3 class="font-headline font-bold text-xl mb-4 group-hover:text-[#FF7C2A] transition-colors">Need Valuation?</h3>
-                <p class="text-xs opacity-70 mb-6 leading-relaxed">Our senior advisors offer private valuation services for qualified acquisitions.</p>
-                <button class="w-full py-3 bg-white text-[#09337B] font-bold rounded-lg hover:bg-opacity-90 transition-all uppercase tracking-widest text-[9px]">Consult Advisory</button>
+                <h3 class="font-headline font-bold text-xl mb-4 group-hover:text-[#FF7C2A] transition-colors">Buy/Sell with CA Expert</h3>
+                <p class="text-xs opacity-70 mb-6 leading-relaxed">Our certified experts handle due diligence and secure transactions.</p>
+                <button class="w-full py-3 bg-white text-[#09337B] font-bold rounded-lg hover:bg-opacity-90 transition-all uppercase tracking-widest text-[9px]">Book Consultation</button>
               </div>
               <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
             </div>
           </div>
-        </aside>
+          </aside>
+        </div>
 
         <!-- Right Column: Results (70%) -->
         <section class="w-full lg:w-[70%] order-1 lg:order-2">
@@ -211,9 +186,14 @@ interface Listing {
                 
                 <!-- Card Image -->
                 <div class="w-full md:w-[35%] h-56 md:h-auto overflow-hidden relative">
-                  <img [src]="listing.imageUrl" [alt]="listing.title" class="w-full h-full object-cover"/>
+                  <img [src]="listing.imageUrls && listing.imageUrls[0] ? listing.imageUrls[0] : 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop'" [alt]="listing.title" class="w-full h-full object-cover"/>
                   <div class="absolute top-4 left-4 bg-[#09337B]/90 text-white px-3 py-1 rounded text-[9px] font-black uppercase tracking-widest backdrop-blur-md">
                     {{ listing.category }}
+                  </div>
+                  <!-- CA-Verified Badge Integration -->
+                  <div *ngIf="listing.isVerified" class="absolute bottom-4 left-4 flex items-center gap-2 bg-[#FF7C2A] text-white px-3 py-1.5 rounded-lg shadow-xl animate-pulse">
+                    <span class="material-symbols-outlined text-[16px]">verified</span>
+                    <span class="text-[10px] font-black uppercase tracking-tighter">CA-Verified</span>
                   </div>
                 </div>
 
@@ -221,15 +201,8 @@ interface Listing {
                 <div class="p-6 lg:p-8 md:w-[65%] flex flex-col">
                   <div class="flex justify-between items-start mb-3">
                     <h3 class="font-headline font-bold text-lg lg:text-xl text-[#09337B] tracking-tight flex-1">
-                      {{ listing.title }}
+                      {{ listing.accessApproved ? listing.businessName : listing.title }}
                     </h3>
-                    <span [ngClass]="listing.verified ? 'bg-green-500/10 text-green-600' : 'bg-red-500/10 text-red-600'" 
-                          class="flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider shrink-0 ml-4 pointer-events-none">
-                      <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">
-                        {{ listing.verified ? 'verified' : 'new_releases' }}
-                      </span>
-                      {{ listing.verified ? 'Verified' : 'Not Verified' }}
-                    </span>
                   </div>
                   
                   <p class="text-zinc-500 text-[13px] mb-6 leading-relaxed line-clamp-2">
@@ -239,25 +212,27 @@ interface Listing {
                   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <div>
                       <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">Asking PRICE</p>
-                      <p class="text-lg font-headline font-extrabold text-[#09337B]">\${{ listing.price | number }}M</p>
+                      <p class="text-lg font-headline font-extrabold text-[#09337B]">₹{{ listing.askingPrice | number }}Cr</p>
                     </div>
                     <div>
                       <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">Net PROFIT</p>
-                      <p class="text-lg font-headline font-extrabold text-[#FF7C2A]">\${{ listing.profit | number }}k</p>
+                      <p class="text-lg font-headline font-extrabold text-[#FF7C2A]">₹{{ listing.netProfit | number }}L</p>
                     </div>
                     <div class="hidden lg:block">
-                      <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">TURNOVER</p>
-                      <p class="text-sm font-bold text-zinc-700">\${{ listing.revenue | number }}M</p>
+                      <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">CITY</p>
+                      <p class="text-sm font-bold text-zinc-700">{{ listing.city }}</p>
                     </div>
                     <div>
-                      <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">LOCATION</p>
-                      <p class="text-sm font-bold text-zinc-700">{{ listing.location }}</p>
+                      <p class="text-[8px] uppercase tracking-widest text-outline font-black mb-1">IDENTITY</p>
+                      <p class="text-[10px] font-bold" [ngClass]="listing.accessApproved ? 'text-green-600' : 'text-amber-600'">
+                        {{ listing.accessApproved ? 'Unmasked' : 'Masked' }}
+                      </p>
                     </div>
                   </div>
 
                   <div class="mt-auto flex gap-3">
-                    <button class="flex-1 py-3.5 bg-[#09337B] text-white font-black rounded-xl hover:bg-[#123e8a] transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-[#09337B]/10 active:scale-95">
-                      Explore Details
+                    <button (click)="requestDetails(listing)" class="flex-1 py-3.5 bg-[#09337B] text-white font-black rounded-xl hover:bg-[#123e8a] transition-all text-[10px] uppercase tracking-widest shadow-lg shadow-[#09337B]/10 active:scale-95">
+                      {{ listing.accessApproved ? 'View Full Profile' : 'Request Private Details' }}
                     </button>
                     <button class="px-5 py-3.5 border border-zinc-100 text-[#09337B] font-bold rounded-xl hover:bg-[#FF7C2A] hover:border-[#FF7C2A] hover:text-white transition-all flex items-center justify-center group/btn active:scale-95">
                       <span class="material-symbols-outlined text-[20px] transition-transform group-hover/btn:scale-125">star</span>
@@ -274,15 +249,11 @@ interface Listing {
                   <span class="material-symbols-outlined">chevron_left</span>
                 </button>
                 <button class="w-11 h-11 flex items-center justify-center rounded-xl bg-[#09337B] text-white font-bold text-sm shadow-lg shadow-[#09337B]/20">1</button>
-                <button class="w-11 h-11 flex items-center justify-center rounded-xl border border-zinc-100 text-zinc-600 hover:border-[#09337B] hover:text-[#09337B] transition-all font-bold text-sm active:scale-95">2</button>
-                <button class="w-11 h-11 flex items-center justify-center rounded-xl border border-zinc-100 text-zinc-600 hover:border-[#09337B] hover:text-[#09337B] transition-all font-bold text-sm active:scale-95">3</button>
                 <span class="px-2 text-zinc-300">...</span>
-                <button class="w-11 h-11 flex items-center justify-center rounded-xl border border-zinc-100 text-zinc-600 hover:border-[#09337B] hover:text-[#09337B] transition-all font-bold text-sm">42</button>
                 <button class="w-11 h-11 flex items-center justify-center rounded-xl border border-zinc-100 text-zinc-400 hover:border-[#09337B] hover:text-[#09337B] transition-all active:scale-95">
                   <span class="material-symbols-outlined">chevron_right</span>
                 </button>
               </div>
-              <p class="text-[10px] uppercase font-black tracking-widest text-zinc-400">Showing page 1 of 42</p>
             </div>
           </ng-container>
 
@@ -294,16 +265,6 @@ interface Listing {
               <span class="material-symbols-outlined text-[80px] text-[#09337B] mb-6 animate-bounce">location_on</span>
               <h3 class="font-headline font-bold text-2xl mb-4 text-[#09337B]">Interactive Market Map</h3>
               <p class="text-zinc-500 max-w-md mx-auto mb-8">Visualize acquisition opportunities across territories with our high-density geospatial dashboard.</p>
-              <div class="flex gap-4 justify-center">
-                <div class="px-6 py-2 bg-white rounded-full border border-zinc-100 shadow-sm flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-[#09337B]"></div>
-                  <span class="text-[10px] font-bold">Industrial Hubs</span>
-                </div>
-                <div class="px-6 py-2 bg-white rounded-full border border-zinc-100 shadow-sm flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-[#FF7C2A]"></div>
-                  <span class="text-[10px] font-bold">Retail Zones</span>
-                </div>
-              </div>
               <button class="mt-12 px-10 py-4 bg-[#09337B] text-white rounded-2xl font-bold uppercase tracking-widest text-[10px] shadow-xl shadow-[#09337B]/20">Request Map Access</button>
             </div>
           </div>
@@ -315,104 +276,57 @@ interface Listing {
 export class BrowseComponent implements OnInit, AfterViewInit {
   @ViewChildren('listingCard') listingCards!: QueryList<ElementRef>;
 
+  private listingService = inject(ListingService);
+  public authService = inject(AuthService);
+
   viewType: 'list' | 'map' = 'list';
   sortBy: string = 'Newest';
+  showMobileFilters: boolean = false;
+  isMobile: boolean = false;
   
   industries = [
     'Manufacturing & Industrial',
     'Technology & SaaS',
     'Food & Beverage',
     'Architecture & Design',
-    'Retail & Commerce'
+    'Retail & Commerce',
+    'Franchise',
+    'Startup Investment'
   ];
 
   filters = {
     search: '',
     selectedIndustries: {} as { [key: string]: boolean },
-    selectedTypes: { 'ESTABLISHED': true, 'FRANCHISE': true, 'START-UP': true } as { [key: string]: boolean },
-    maxPrice: 50,
+    maxPrice: 500,
     minProfit: 0,
-    location: 'Any',
     verifiedOnly: false
   };
 
-  allListings: Listing[] = [
-    {
-      id: 1,
-      title: 'Precision Aerospace Engineering Firm',
-      category: 'Manufacturing & Industrial',
-      price: 8.45,
-      revenue: 24.5,
-      profit: 1200,
-      location: 'Stuttgart, DE',
-      description: 'A leading tier-one supplier for aerospace components specializing in high-tolerance CNC machining and composite integration.',
-      imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop',
-      verified: true,
-      type: 'ESTABLISHED'
-    },
-    {
-      id: 2,
-      title: 'Award-Winning Architectural Practice',
-      category: 'Architecture & Design',
-      price: 3.2,
-      revenue: 5.8,
-      profit: 680,
-      location: 'London, UK',
-      description: 'Boutique firm with a prestigious portfolio of luxury residential and sustainable commercial projects across Western Europe.',
-      imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop',
-      verified: true,
-      type: 'ESTABLISHED'
-    },
-    {
-      id: 3,
-      title: 'Global SaaS Platform: Logistics Engine',
-      category: 'Technology & SaaS',
-      price: 12.5,
-      revenue: 18.2,
-      profit: 4500,
-      location: 'San Francisco, US',
-      description: 'Scalable logistics optimization engine with enterprise contracts in 14 countries. Fully remote infrastructure.',
-      imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop',
-      verified: false,
-      type: 'START-UP'
-    },
-    {
-      id: 4,
-      title: 'Luxury Organic Vineyard & Resort',
-      category: 'Food & Beverage',
-      price: 15.0,
-      revenue: 4.2,
-      profit: 950,
-      location: 'Tuscany, IT',
-      description: 'Exclusive estate featuring 50 acres of organic grapevines, a modern production facility, and a 5-star boutique hotel.',
-      imageUrl: 'https://images.unsplash.com/photo-1506377247377-2a5b3b0ca7df?q=80&w=2070&auto=format&fit=crop',
-      verified: true,
-      type: 'ESTABLISHED'
-    },
-    {
-      id: 5,
-      title: 'Industrial Robotics Manufacturer',
-      category: 'Manufacturing & Industrial',
-      price: 22.0,
-      revenue: 45.0,
-      profit: 6200,
-      location: 'Tokyo, JP',
-      description: 'Specializing in automation solutions for automotive assembly lines. Proprietary patents for cobot integration.',
-      imageUrl: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2020&auto=format&fit=crop',
-      verified: true,
-      type: 'ESTABLISHED'
-    }
-  ];
-
+  allListings: Listing[] = [];
   filteredListings: Listing[] = [];
 
   constructor() {
-    // Select all industries by default
     this.industries.forEach(ind => this.filters.selectedIndustries[ind] = true);
   }
 
   ngOnInit() {
-    this.applyFilters();
+    this.checkMobile();
+    window.addEventListener('resize', () => this.checkMobile());
+    this.loadListings();
+  }
+
+  checkMobile() {
+    this.isMobile = window.innerWidth < 1024;
+  }
+
+  loadListings() {
+    this.listingService.getAllListings().subscribe({
+      next: (data) => {
+        this.allListings = data;
+        this.applyFilters();
+      },
+      error: (err) => console.error('Failed to load listings', err)
+    });
   }
 
   ngAfterViewInit() {
@@ -424,38 +338,59 @@ export class BrowseComponent implements OnInit, AfterViewInit {
       const matchSearch = l.title.toLowerCase().includes(this.filters.search.toLowerCase()) || 
                           l.description.toLowerCase().includes(this.filters.search.toLowerCase());
       const matchIndustry = this.filters.selectedIndustries[l.category];
-      const matchType = this.filters.selectedTypes[l.type];
-      const matchPrice = l.price <= this.filters.maxPrice;
-      const matchProfit = l.profit >= this.filters.minProfit;
-      const matchLocation = this.filters.location === 'Any' || l.location.includes(this.filters.location);
-      const matchVerified = !this.filters.verifiedOnly || l.verified;
+      const matchPrice = l.askingPrice <= this.filters.maxPrice;
+      const matchProfit = l.netProfit >= this.filters.minProfit;
+      const matchVerified = !this.filters.verifiedOnly || l.isVerified;
       
-      return matchSearch && matchIndustry && matchType && matchPrice && matchProfit && matchLocation && matchVerified;
+      return matchSearch && matchIndustry && matchPrice && matchProfit && matchVerified;
     });
 
-    // Sorting
     if (this.sortBy === 'PriceHigh') {
-      this.filteredListings.sort((a, b) => b.price - a.price);
+      this.filteredListings.sort((a, b) => b.askingPrice - a.askingPrice);
     } else if (this.sortBy === 'ProfitHigh') {
-      this.filteredListings.sort((a, b) => b.profit - a.profit);
+      this.filteredListings.sort((a, b) => b.netProfit - a.netProfit);
     } else {
       this.filteredListings.sort((a, b) => b.id - a.id);
     }
 
-    // Small delay to allow Angular to render, then re-animate
-    setTimeout(() => {
-      this.animateList();
-    }, 50);
+    setTimeout(() => this.animateList(), 50);
+  }
+
+  requestDetails(listing: Listing) {
+    if (listing.accessApproved) {
+      alert('You already have access to this profile.');
+      return;
+    }
+    
+    // Security Check: CA-Verified listings require verified buyers
+    if (listing.isVerified && !this.authService.isKycVerified()) {
+      alert('🔒 Security Protocol: This is a CA-Verified institutional listing. Please complete your KYC in Account Settings to request details.');
+      return;
+    }
+
+    this.listingService.requestAccess(listing.id, 'I am interested in this acquisition.').subscribe({
+      next: () => alert('Request sent! The seller will review your profile.'),
+      error: (err) => alert('Failed to send request. ' + (err.error?.message || ''))
+    });
+  }
+
+  bookConsultation() {
+    const consultation = {
+      preferredTime: 'Anytime this week',
+      message: 'Interested in institutional advisory.'
+    };
+    this.listingService.bookConsultation(consultation).subscribe({
+      next: () => alert('Consultation booked! A CA Expert will contact you.'),
+      error: (err) => alert('Failed to book consultation.')
+    });
   }
 
   resetFilters() {
     this.filters.search = '';
-    this.filters.maxPrice = 50;
+    this.filters.maxPrice = 500;
     this.filters.minProfit = 0;
-    this.filters.location = 'Any';
     this.filters.verifiedOnly = false;
     this.industries.forEach(ind => this.filters.selectedIndustries[ind] = true);
-    this.filters.selectedTypes = { 'ESTABLISHED': true, 'FRANCHISE': true, 'START-UP': true };
     this.sortBy = 'Newest';
     this.applyFilters();
   }
@@ -482,3 +417,4 @@ export class BrowseComponent implements OnInit, AfterViewInit {
     }
   }
 }
+
