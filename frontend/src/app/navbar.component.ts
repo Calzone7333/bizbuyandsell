@@ -203,9 +203,15 @@ gsap.registerPlugin(ScrollTrigger);
       <!-- Mobile Menu Header -->
       <div class="h-24 px-8 flex items-center justify-between border-b border-slate-100">
         <h2 class="text-3xl font-bold text-[#1a1a1a]">Menu</h2>
-        <button (click)="isMenuOpen = false" class="w-12 h-12 flex items-center justify-center bg-[#1a1a1a] text-white">
-          <span class="material-symbols-outlined text-[28px]">close</span>
-        </button>
+        <div class="flex items-center gap-4">
+          <button *ngIf="authService.isLoggedIn()" class="w-12 h-12 flex items-center justify-center text-slate-600 relative">
+            <span class="material-symbols-outlined text-[28px]">notifications</span>
+            <span *ngIf="hasNotifications" class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+          </button>
+          <button (click)="isMenuOpen = false" class="w-12 h-12 flex items-center justify-center bg-[#1a1a1a] text-white">
+            <span class="material-symbols-outlined text-[28px]">close</span>
+          </button>
+        </div>
       </div>
 
       <!-- Mobile Menu Content -->
@@ -219,8 +225,11 @@ gsap.registerPlugin(ScrollTrigger);
             </button>
             <div *ngIf="sections['buy']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
                <a routerLink="/browse" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Browse Businesses</a>
-               <a href="#" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Valuation</a>
-               <a href="#" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Financing Options</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Buy with CA Expert</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Valuation</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Due Diligence</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Financing Options</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Buyer Dashboard</a>
             </div>
           </div>
 
@@ -232,8 +241,11 @@ gsap.registerPlugin(ScrollTrigger);
             </button>
             <div *ngIf="sections['sell']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
                <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">List Your Business</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Sell with CA Expert ⭐</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Valuation</a>
                <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Get Verified Listing</a>
-               <a href="#" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Pricing Plans</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Due Diligence Support</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Pricing Plans</a>
             </div>
           </div>
 
@@ -245,8 +257,9 @@ gsap.registerPlugin(ScrollTrigger);
             </button>
             <div *ngIf="sections['investment']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
                <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Invest in Verified Businesses</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Startup Investment</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Startup Investment Opportunities</a>
                <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">High Return Deals</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Partnership Opportunities</a>
             </div>
           </div>
 
@@ -260,6 +273,7 @@ gsap.registerPlugin(ScrollTrigger);
                <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Explore Franchise Opportunities</a>
                <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Top Franchise Brands</a>
                <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Low Investment Franchises</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">High Growth Franchise Deals</a>
             </div>
           </div>
 
@@ -286,17 +300,46 @@ gsap.registerPlugin(ScrollTrigger);
         </div>
 
         <ng-container *ngIf="authService.isLoggedIn()">
-          <div class="py-4 border-b border-slate-50 mb-6">
-             <p class="text-[12px] font-bold text-slate-400 uppercase tracking-widest pl-1">Active Account</p>
-             <p class="text-lg font-bold text-[#1a1a1a] pl-1">{{ userEmail }}</p>
+          <div class="py-4 border-b border-slate-50 mb-4">
+             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Active Account</p>
+             <p class="text-base font-bold text-[#1a1a1a] pl-1">{{ username }}</p>
+             <p class="text-[12px] text-slate-500 pl-1">{{ userEmail }}</p>
           </div>
           
           <div class="flex flex-col">
-            <a routerLink="/admin" *ngIf="authService.isAdmin()" (click)="isMenuOpen = false" class="py-6 text-[18px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
-              Admin Dashboard <span class="material-symbols-outlined">settings</span>
+            <a routerLink="/admin" *ngIf="authService.isAdmin()" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+              Admin Dashboard <span class="material-symbols-outlined text-[20px]">dashboard</span>
             </a>
-            <button (click)="onLogout(); isMenuOpen = false" class="py-6 text-[18px] font-bold text-rose-500 border-b border-slate-50 flex items-center justify-between text-left">
-              Sign Out <span class="material-symbols-outlined">logout</span>
+
+            <a routerLink="/sell" (click)="isMenuOpen = false" class="py-4 text-[16px] font-bold text-[#FF7C2A] border-b border-slate-50 flex items-center justify-between">
+              Sell A Business <span class="material-symbols-outlined text-[20px]">sell</span>
+            </a>
+
+            <a routerLink="/profile/settings" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+              Account Settings <span class="material-symbols-outlined text-[20px]">settings</span>
+            </a>
+
+            <ng-container *ngIf="!authService.isAdmin()">
+              <a href="#" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+                My Entities <span class="material-symbols-outlined text-[20px]">corporate_fare</span>
+              </a>
+              <a href="#" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+                Saved Businesses <span class="material-symbols-outlined text-[20px]">favorite</span>
+              </a>
+              <a href="#" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+                My Listings <span class="material-symbols-outlined text-[20px]">list_alt</span>
+              </a>
+              <a href="#" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-[#1a1a1a] border-b border-slate-50 flex items-center justify-between">
+                Market Alerts <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+              </a>
+            </ng-container>
+
+            <a href="#" (click)="isMenuOpen = false" class="py-4 text-[16px] font-medium text-slate-400 border-b border-slate-50 flex items-center justify-between">
+              Help Center <span class="material-symbols-outlined text-[20px]">help_outline</span>
+            </a>
+
+            <button (click)="onLogout(); isMenuOpen = false" class="py-5 text-[16px] font-bold text-rose-500 border-b border-slate-50 flex items-center justify-between text-left">
+              Sign Out <span class="material-symbols-outlined text-[20px]">logout</span>
             </button>
           </div>
         </ng-container>
