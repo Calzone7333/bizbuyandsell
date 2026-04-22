@@ -208,7 +208,7 @@ gsap.registerPlugin(ScrollTrigger);
                 </span>
               </h1>
               <p #heroText class="text-zinc-600 max-w-xl mx-auto lg:mx-0 mb-8 lg:mb-8 opacity-0 px-4 lg:px-0" style="font-size: 15px; lg:font-size: 16px; font-weight: 400; line-height: 28px; lg:line-height: 32px; font-family: 'Inter', sans-serif;">
-                India’s first CA-verified business marketplace.
+                Verified & Analysed Business Marketplace
               </p>
               <!-- Editorial Search Shell -->
               <div #searchBox class="bg-white px-1.5 py-1.5 rounded-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.08)] flex flex-col xl:flex-row items-center gap-1.5 max-w-4xl w-full mx-auto lg:mx-0 opacity-0 relative z-20">
