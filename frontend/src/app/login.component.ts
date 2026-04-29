@@ -10,7 +10,7 @@ import { SocialAuthService, GoogleLoginProvider, SocialLoginModule } from '@abac
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, SocialLoginModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   template: `
     <main class="flex min-h-screen bg-white font-body selection:bg-[#FF7C2A]/20 selection:text-[#192830]">
       <!-- Left Section: Visual Identity -->
