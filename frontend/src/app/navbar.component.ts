@@ -102,7 +102,7 @@ gsap.registerPlugin(ScrollTrigger);
           <!-- AUTH SUITE -->
           <ng-container *ngIf="!authService.isLoggedIn()">
              <!-- Desktop Only Login Button -->
-            <a #loginBtn routerLink="/login" class="Btn-Container hidden lg:flex opacity-0">
+            <a #loginBtn routerLink="/login" class="Btn-Container hidden lg:flex">
               <span class="text">LOGIN</span>
               <span class="icon-Container">
                 <span class="material-symbols-outlined text-white text-[18px]">login</span>
