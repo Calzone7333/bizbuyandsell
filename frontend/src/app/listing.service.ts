@@ -16,11 +16,26 @@ export class ListingService {
     return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http:' : window.location.protocol;
   }
 
-  private get apiUrl() { return `${this.protocol}//${this.host}:8086/api/listings`; }
-  private get statsUrl() { return `${this.protocol}//${this.host}:8086/api/public/stats`; }
-  private get interestUrl() { return `${this.protocol}//${this.host}:8086/api/interest`; }
-  private get consultationUrl() { return `${this.protocol}//${this.host}:8086/api/consultations`; }
-  private get filesUrl() { return `${this.protocol}//${this.host}:8086/api/files`; }
+  private get apiUrl() { 
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8086/api/listings' : '/api/listings'; 
+  }
+  private get statsUrl() { 
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8086/api/public/stats' : '/api/public/stats'; 
+  }
+  private get interestUrl() { 
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8086/api/interest' : '/api/interest'; 
+  }
+  private get consultationUrl() { 
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8086/api/consultations' : '/api/consultations'; 
+  }
+  private get filesUrl() { 
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:8086/api/files' : '/api/files'; 
+  }
 
   constructor(private http: HttpClient) { }
 

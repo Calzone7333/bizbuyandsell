@@ -8,7 +8,7 @@ import { Observable, tap, BehaviorSubject } from 'rxjs';
 export class AuthService {
   private apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8086/api/v1/auth'
-    : `${window.location.protocol}//${window.location.hostname}:8086/api/v1/auth`;
+    : '/api/v1/auth';
   private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient) {}

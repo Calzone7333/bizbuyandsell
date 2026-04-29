@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class GeneralService {
   private apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8086/api'
-    : `${window.location.protocol}//${window.location.hostname}:8086/api`;
+    : '/api';
 
   constructor(private http: HttpClient) {}
 
