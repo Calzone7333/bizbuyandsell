@@ -102,12 +102,12 @@ gsap.registerPlugin(ScrollTrigger);
           <!-- AUTH SUITE -->
           <ng-container *ngIf="!authService.isLoggedIn()">
              <!-- Desktop Only Login Button -->
-            <button #loginBtn routerLink="/login" class="Btn-Container hidden lg:flex opacity-0">
+            <a #loginBtn routerLink="/login" class="Btn-Container hidden lg:flex opacity-0">
               <span class="text">LOGIN</span>
               <span class="icon-Container">
                 <span class="material-symbols-outlined text-white text-[18px]">login</span>
               </span>
-            </button>
+            </a>
           </ng-container>
 
           <ng-container *ngIf="authService.isLoggedIn()">
@@ -504,6 +504,7 @@ gsap.registerPlugin(ScrollTrigger);
         background-color: #09337B; border-radius: 40px; 
         border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative; overflow: hidden;
+        text-decoration: none;
         display: none; /* Hidden by default for mobile */
       }
       /* Desktop Specific Sizing      /* COMPACT MODERN DROPDOWN */
