@@ -12,85 +12,88 @@ gsap.registerPlugin(ScrollTrigger);
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <nav #navbar class="fixed top-0 w-full z-[100] bg-white opacity-0 -translate-y-full border-b border-transparent transition-all duration-300">
-      <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between overflow-visible">
+    <nav #navbar class="fixed top-0 w-full z-[100] bg-[#f8f9ff] opacity-0 -translate-y-full border-b border-transparent transition-all duration-300">
+      <div class="max-w-screen-2xl mx-auto px-6 lg:px-8 h-24 flex items-center justify-between overflow-visible">
         
         <!-- Zone 1: Logo (Left) -->
         <div class="flex items-center">
           <a class="flex items-center" routerLink="/">
-            <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[42px] md:h-[48px] w-auto transition-transform hover:scale-105">
+            <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[42px] md:h-[48px] w-auto">
           </a>
         </div>
 
         <!-- Zone 2: Navigation Links (Center) -->
-        <div class="hidden lg:flex items-center justify-center gap-1">
+        <div class="hidden lg:flex items-center justify-center gap-2 xl:gap-4">
           
           <!-- BUY BUSINESS DROPDOWN -->
-          <div #navItem class="dropdown-wrapper h-full flex items-center group opacity-0">
-            <button class="nav-link text-[10px] xl:text-[11px]">
+          <div #navItem class="dropdown-wrapper relative group opacity-0">
+            <button class="nav-link-v2 flex items-center gap-1">
               Buy Business
-              <span class="material-symbols-outlined text-[14px]">expand_more</span>
+              <span class="material-symbols-outlined text-[18px]">expand_more</span>
             </button>
-            <div class="dropdown-menu">
-               <a routerLink="/browse" class="dropdown-item">Browse Businesses</a>
-               <a href="#" class="dropdown-item">Buy with CA Expert</a>
-               <a href="#" class="dropdown-item">Business Valuation</a>
-               <a href="#" class="dropdown-item">Due Diligence</a>
-               <a href="#" class="dropdown-item">Financing Options</a>
-               <a href="#" class="dropdown-item">Buyer Dashboard</a>
+
+            <div class="dropdown-menu-v2">
+               <a routerLink="/browse" class="dropdown-item-v2">Browse Businesses</a>
+               <a href="#" class="dropdown-item-v2">Buy with CA Expert</a>
+               <a href="#" class="dropdown-item-v2">Business Valuation</a>
+               <a href="#" class="dropdown-item-v2">Due Diligence</a>
+               <a href="#" class="dropdown-item-v2">Financing Options</a>
+               <a routerLink="/buyer-dashboard" class="dropdown-item-v2">Buyer Dashboard</a>
             </div>
           </div>
 
           <!-- SELL BUSINESS DROPDOWN -->
-          <div #navItem class="dropdown-wrapper h-full flex items-center group opacity-0">
-            <button class="nav-link text-[10px] xl:text-[11px]">
+          <div #navItem class="dropdown-wrapper relative group opacity-0">
+            <button class="nav-link-v2 flex items-center gap-1">
               Sell Business
-              <span class="material-symbols-outlined text-[14px]">expand_more</span>
+              <span class="material-symbols-outlined text-[18px]">expand_more</span>
             </button>
-            <div class="dropdown-menu">
-               <a routerLink="/sell" class="dropdown-item">List Your Business</a>
-               <a href="#" class="dropdown-item">Sell with CA Expert ⭐</a>
-               <a href="#" class="dropdown-item">Business Valuation</a>
-               <a routerLink="/sell" class="dropdown-item">Get Verified Listing</a>
-               <a href="#" class="dropdown-item">Due Diligence Support</a>
-               <a href="#" class="dropdown-item">Pricing Plans</a>
+            <div class="dropdown-menu-v2">
+               <a routerLink="/sell" class="dropdown-item-v2">List Your Business</a>
+               <a href="#" class="dropdown-item-v2">Sell with CA Expert ⭐</a>
+               <a href="#" class="dropdown-item-v2">Business Valuation</a>
+               <a routerLink="/sell" class="dropdown-item-v2">Get Verified Listing</a>
+               <a href="#" class="dropdown-item-v2">Due Diligence Support</a>
+               <a href="#" class="dropdown-item-v2">Pricing Plans</a>
             </div>
           </div>
 
           <!-- INVESTMENT DROPDOWN -->
-          <div #navItem class="dropdown-wrapper h-full flex items-center group opacity-0">
-            <button class="nav-link text-[10px] xl:text-[11px]">
+          <div #navItem class="dropdown-wrapper relative group opacity-0">
+            <button class="nav-link-v2 flex items-center gap-1">
               Investment
-              <span class="material-symbols-outlined text-[14px]">expand_more</span>
+              <span class="material-symbols-outlined text-[18px]">expand_more</span>
             </button>
-            <div class="dropdown-menu">
-               <a href="#" class="dropdown-item">Invest in Verified Businesses</a>
-               <a href="#" class="dropdown-item">Startup Investment Opportunities</a>
-               <a href="#" class="dropdown-item">High Return Deals</a>
-               <a href="#" class="dropdown-item">Business Partnership Opportunities</a>
+            <div class="dropdown-menu-v2">
+               <a href="#" class="dropdown-item-v2">Invest in Verified Businesses</a>
+               <a href="#" class="dropdown-item-v2">Startup Investment Opportunities</a>
+               <a href="#" class="dropdown-item-v2">High Return Deals</a>
+               <a href="#" class="dropdown-item-v2">Business Partnership Opportunities</a>
             </div>
           </div>
 
           <!-- FRANCHISE DROPDOWN -->
-          <div #navItem class="dropdown-wrapper h-full flex items-center group opacity-0">
-            <button class="nav-link text-[10px] xl:text-[11px]">
+          <div #navItem class="dropdown-wrapper relative group opacity-0">
+            <button class="nav-link-v2 flex items-center gap-1">
               Franchise
-              <span class="material-symbols-outlined text-[14px]">expand_more</span>
+              <span class="material-symbols-outlined text-[18px]">expand_more</span>
             </button>
-            <div class="dropdown-menu">
-               <a href="#" class="dropdown-item">Explore Franchise Opportunities</a>
-               <a href="#" class="dropdown-item">Top Franchise Brands</a>
-               <a href="#" class="dropdown-item">Low Investment Franchises</a>
-               <a href="#" class="dropdown-item">High Growth Franchise Deals</a>
+            <div class="dropdown-menu-v2">
+               <a href="#" class="dropdown-item-v2">Explore Franchise Opportunities</a>
+               <a href="#" class="dropdown-item-v2">Top Franchise Brands</a>
+               <a href="#" class="dropdown-item-v2">Low Investment Franchises</a>
+               <a href="#" class="dropdown-item-v2">High Growth Franchise Deals</a>
             </div>
           </div>
 
-          <!-- SECONDARY LINKS -->
+          <!-- HOW IT WORKS -->
           <div #navItem class="nav-item-group opacity-0">
-            <a class="nav-link text-[10px] xl:text-[11px]" href="#">How It Works</a>
+            <a class="nav-link-utility" href="#">How It Works</a>
           </div>
+
+          <!-- FAQS -->
           <div #navItem class="nav-item-group opacity-0">
-            <a class="nav-link text-[10px] xl:text-[11px]" href="#">FAQs</a>
+            <a class="nav-link-utility" href="#">FAQs</a>
           </div>
         </div>
 
@@ -117,12 +120,12 @@ gsap.registerPlugin(ScrollTrigger);
               <div id="tour-account" class="relative group h-full flex items-center">
                 <!-- Profile Identity Trigger -->
                 <button class="flex items-center gap-3 transition-transform active:scale-95 group/avatar">
-                  <div class="w-9 h-9 rounded-full bg-[#09337B] flex items-center justify-center shadow-sm border-2 border-white transition-all group-hover/avatar:ring-2 group-hover/avatar:ring-[#FF7C2A]">
-                    <span class="text-[14px] font-bold text-white">{{ userInitials }}</span>
+                  <div class="w-10 h-10 bg-[#09337B] flex items-center justify-center shadow-sm border-2 border-white transition-all group-hover/avatar:ring-2 group-hover/avatar:ring-[#FF7C2A] group-hover/avatar:ring-offset-2 overflow-hidden" style="border-radius: 50% !important;">
+                    <span class="text-[15px] font-bold text-white tracking-tighter" style="font-family: 'Manrope', sans-serif;">{{ userInitials }}</span>
                   </div>
                   <div class="flex items-center gap-1">
-                    <span class="text-[13px] font-medium text-slate-500 group-hover/avatar:text-slate-900 transition-colors">{{ username }}</span>
-                    <span class="material-symbols-outlined text-[16px] text-slate-300 font-light group-hover/avatar:translate-y-0.5 transition-transform">expand_more</span>
+                    <span class="text-[16px] font-medium text-[#0c023c] group-hover/avatar:text-[#FF7C2A] transition-colors" style="font-family: 'Manrope', sans-serif; line-height: 24px;">{{ username }}</span>
+                    <span class="material-symbols-outlined text-[20px] text-slate-300 font-light group-hover/avatar:translate-y-0.5 transition-transform">expand_more</span>
                   </div>
                 </button>
 
@@ -132,15 +135,15 @@ gsap.registerPlugin(ScrollTrigger);
                     
                     <!-- ADMIN SPECIFIC ITEMS -->
                     <ng-container *ngIf="authService.isAdmin()">
-                      <a routerLink="/admin" class="modern-dropdown-link bg-zinc-50/80 group">
-                        <span class="material-symbols-outlined icon-v text-[#09337B]">dashboard</span>
-                        <span class="flex-1">Admin Panel</span>
+                      <a routerLink="/admin" class="modern-dropdown-link group !bg-slate-50 mb-1">
+                        <span class="material-symbols-outlined icon-v text-[#09337B] !fill-1">dashboard</span>
+                        <span class="flex-1 font-bold text-[#09337B]">Admin Panel</span>
                       </a>
                     </ng-container>
                     
                     <!-- USER SPECIFIC ITEMS -->
-                    <a routerLink="/sell" class="modern-dropdown-link group text-[#FF7C2A] bg-orange-50/50">
-                      <span class="material-symbols-outlined icon-v text-[#FF7C2A]">sell</span>
+                    <a routerLink="/sell" class="modern-dropdown-link group !bg-[#fff9f2] !text-[#0c023c] hover:!bg-[#fff0e0] mb-1">
+                      <span class="material-symbols-outlined icon-v !text-[#0c023c] !font-bold !fill-1">sell</span>
                       <span class="flex-1 font-bold">Sell A Business</span>
                     </a>
 
@@ -167,22 +170,17 @@ gsap.registerPlugin(ScrollTrigger);
                         PRO
                       </span>
                     </a>
-                    
-                    <a href="#" class="modern-dropdown-link group" *ngIf="!authService.isAdmin()">
-                      <span class="material-symbols-outlined icon-v">notifications_active</span>
-                      <span class="flex-1">Market Alerts</span>
-                    </a>
 
-                    <div class="h-px bg-zinc-100/60 my-1.5 mx-3"></div>
+                    <div class="h-px bg-zinc-100/60 my-2 mx-3"></div>
                     
                     <a href="#" class="modern-dropdown-link group">
-                      <span class="material-symbols-outlined icon-v text-zinc-400">help_outline</span>
-                      <span class="flex-1 text-zinc-400">Help center</span>
+                      <span class="material-symbols-outlined icon-v">help_outline</span>
+                      <span class="flex-1">Help center</span>
                     </a>
                     
-                    <button (click)="onLogout()" class="modern-dropdown-link text-zinc-600 hover:text-red-500 hover:bg-red-50/50 group">
-                      <span class="material-symbols-outlined icon-v text-zinc-400 group-hover:text-red-500">logout</span>
-                      <span class="flex-1 text-left">Sign out</span>
+                    <button (click)="onLogout()" class="modern-dropdown-link !text-rose-600 hover:bg-rose-50/50 group mt-1">
+                      <span class="material-symbols-outlined icon-v !text-rose-500 !fill-1">logout</span>
+                      <span class="flex-1 text-left font-bold">Sign out</span>
                     </button>
                   </div>
                 </div>
@@ -220,67 +218,67 @@ gsap.registerPlugin(ScrollTrigger);
           <!-- BUY BUSINESS SECTION -->
           <div class="border-b border-slate-50 py-4">
             <button (click)="toggleSection('buy')" class="w-full flex items-center justify-between text-left">
-               <span class="text-[18px] font-bold text-[#1a1a1a]">Buy Business</span>
+               <span class="text-[18px] font-bold text-[#0c023c]" style="font-family: 'Work Sans', sans-serif;">Buy Business</span>
                <span class="material-symbols-outlined transition-transform duration-300" [class.rotate-180]="sections['buy']">expand_more</span>
             </button>
             <div *ngIf="sections['buy']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
-               <a routerLink="/browse" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Browse Businesses</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Buy with CA Expert</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Valuation</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Due Diligence</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Financing Options</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Buyer Dashboard</a>
+               <a routerLink="/browse" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Browse Businesses</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Buy with CA Expert</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Business Valuation</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Due Diligence</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Financing Options</a>
+               <a routerLink="/buyer-dashboard" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Buyer Dashboard</a>
             </div>
           </div>
 
           <!-- SELL BUSINESS SECTION -->
           <div class="border-b border-slate-50 py-4">
             <button (click)="toggleSection('sell')" class="w-full flex items-center justify-between text-left">
-               <span class="text-[18px] font-bold text-[#1a1a1a]">Sell Business</span>
+               <span class="text-[18px] font-bold text-[#0c023c]" style="font-family: 'Work Sans', sans-serif;">Sell Business</span>
                <span class="material-symbols-outlined transition-transform duration-300" [class.rotate-180]="sections['sell']">expand_more</span>
             </button>
             <div *ngIf="sections['sell']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
-               <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">List Your Business</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Sell with CA Expert ⭐</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Valuation</a>
-               <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Get Verified Listing</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Due Diligence Support</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Pricing Plans</a>
+               <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">List Your Business</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Sell with CA Expert ⭐</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Business Valuation</a>
+               <a routerLink="/sell" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Get Verified Listing</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Due Diligence Support</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Pricing Plans</a>
             </div>
           </div>
 
           <!-- INVESTMENT SECTION -->
           <div class="border-b border-slate-50 py-4">
             <button (click)="toggleSection('investment')" class="w-full flex items-center justify-between text-left">
-               <span class="text-[18px] font-bold text-[#1a1a1a]">Investment</span>
+               <span class="text-[18px] font-bold text-[#0c023c]" style="font-family: 'Work Sans', sans-serif;">Investment</span>
                <span class="material-symbols-outlined transition-transform duration-300" [class.rotate-180]="sections['investment']">expand_more</span>
             </button>
             <div *ngIf="sections['investment']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Invest in Verified Businesses</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Startup Investment Opportunities</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">High Return Deals</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Business Partnership Opportunities</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Invest in Verified Businesses</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Startup Investment Opportunities</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">High Return Deals</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Business Partnership Opportunities</a>
             </div>
           </div>
 
           <!-- FRANCHISE SECTION -->
           <div class="border-b border-slate-50 py-4">
             <button (click)="toggleSection('franchise')" class="w-full flex items-center justify-between text-left">
-               <span class="text-[18px] font-bold text-[#1a1a1a]">Franchise</span>
+               <span class="text-[18px] font-bold text-[#0c023c]" style="font-family: 'Work Sans', sans-serif;">Franchise</span>
                <span class="material-symbols-outlined transition-transform duration-300" [class.rotate-180]="sections['franchise']">expand_more</span>
             </button>
             <div *ngIf="sections['franchise']" class="flex flex-col gap-3 pl-4 mt-4 overflow-hidden">
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Explore Franchise Opportunities</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Top Franchise Brands</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">Low Investment Franchises</a>
-               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#09337B]">High Growth Franchise Deals</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Explore Franchise Opportunities</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Top Franchise Brands</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">Low Investment Franchises</a>
+               <a href="#" (click)="isMenuOpen = false" class="text-[14px] text-slate-500 font-medium hover:text-[#FF7C2A]">High Growth Franchise Deals</a>
             </div>
           </div>
 
           <!-- SECONDARY LINKS -->
           <div class="border-b border-slate-50 py-4 flex flex-col gap-3">
-            <a href="#" class="text-[15px] font-bold text-[#1a1a1a]">How It Works</a>
-            <a href="#" class="text-[15px] font-bold text-[#1a1a1a]">FAQs</a>
+            <a href="#" class="text-[16px] font-medium text-[#0c023c] hover:text-[#FF7C2A]" style="font-family: 'Roboto', sans-serif; line-height: 24px;">How It Works</a>
+            <a href="#" class="text-[16px] font-medium text-[#0c023c] hover:text-[#FF7C2A]" style="font-family: 'Roboto', sans-serif; line-height: 24px;">FAQs</a>
           </div>
         </div>
 
@@ -302,7 +300,7 @@ gsap.registerPlugin(ScrollTrigger);
         <ng-container *ngIf="authService.isLoggedIn()">
           <div class="py-4 border-b border-slate-50 mb-4">
              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1">Active Account</p>
-             <p class="text-base font-bold text-[#1a1a1a] pl-1">{{ username }}</p>
+             <p class="text-[16px] font-medium text-[#0c023c] pl-1" style="font-family: 'Manrope', sans-serif; line-height: 24px;">{{ username }}</p>
              <p class="text-[12px] text-slate-500 pl-1">{{ userEmail }}</p>
           </div>
           
@@ -348,6 +346,110 @@ gsap.registerPlugin(ScrollTrigger);
     </div>
 
     <style>
+      .nav-link-v2 {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        color: #0c023c;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        padding: 4px 0;
+      }
+      .nav-link-utility {
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        color: #0c023c;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        padding: 4px 0;
+      }
+      .nav-link-utility:hover {
+        color: #FF7C2A;
+      }
+      .active-line {
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #FF7C2A;
+        border-radius: 2px;
+      }
+      .dropdown-menu-v2 {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        min-width: 240px;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        padding: 4px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(15px) scale(0.95);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        z-index: 100;
+        border: 1px solid rgba(0,0,0,0.05);
+        transform-origin: top left;
+      }
+      /* Triangle Arrow */
+      .dropdown-menu-v2::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 24px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid white;
+      }
+      .group:hover .dropdown-menu-v2 {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+      }
+      .dropdown-item-v2 {
+        display: block;
+        padding: 14px 22px;
+        font-family: 'Work Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #0c023c;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        border-bottom: 1px solid #f8f8f8;
+        position: relative;
+        overflow: hidden;
+      }
+      .dropdown-item-v2:last-child {
+        border-bottom: none;
+      }
+      .dropdown-item-v2:hover {
+        background-color: #FF7C2A;
+        color: white;
+        padding-left: 28px;
+      }
+      .dropdown-item-v2::after {
+        content: 'arrow_forward';
+        font-family: 'Material Symbols Outlined';
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%) translateX(-10px);
+        opacity: 0;
+        font-size: 18px;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        pointer-events: none;
+      }
+      .dropdown-item-v2:hover::after {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
       .nav-link { 
         display: flex; align-items: center; gap: 4px; color: #192830; 
         font-weight: 800; font-size: 11px; text-transform: uppercase; 
@@ -409,23 +511,51 @@ gsap.registerPlugin(ScrollTrigger);
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 9px 12px;
+        padding: 10px 16px;
         border-radius: 12px;
-        color: #18181b; 
-        font-size: 13.5px;
+        color: #1e293b; 
+        font-size: 14px;
         font-weight: 500;
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: 'Work Sans', sans-serif;
+        position: relative;
       }
       
       .modern-dropdown-link:hover {
         background-color: #f4f4f5; 
+        padding-left: 20px;
+      }
+      .modern-dropdown-link::after {
+        content: 'arrow_forward';
+        font-family: 'Material Symbols Outlined';
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%) translateX(-10px);
+        opacity: 0;
+        font-size: 18px;
+        color: #FF7C2A;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        pointer-events: none;
+      }
+      .modern-dropdown-link:hover::after {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
       }
 
       .icon-v {
         font-size: 20px;
-        color: #18181b;
-        font-variation-settings: 'FILL' 0, 'wght' 300;
+        color: #475569;
+        font-variation-settings: 'FILL' 0, 'wght' 400;
+        transition: all 0.2s ease;
+      }
+      .group:hover .icon-v {
+        color: inherit;
+        transform: scale(1.1);
+      }
+      .fill-1 {
+        font-variation-settings: 'FILL' 1 !important;
       }
 
       .pro-badge-v {
@@ -458,8 +588,9 @@ gsap.registerPlugin(ScrollTrigger);
         flex-shrink: 0;
       }
       .text { 
-        color: white; font-size: 10px; font-weight: 900; 
-        letter-spacing: 0.15em; white-space: nowrap;
+        color: white; font-size: 11px; font-weight: 700; 
+        letter-spacing: 0.1em; white-space: nowrap;
+        font-family: 'Work Sans', sans-serif;
       }
 
       @media (max-width: 1024px) {
@@ -547,20 +678,20 @@ export class NavbarComponent implements AfterViewInit {
       start: 'top -10',
       onEnter: () => {
         gsap.to(this.navbar.nativeElement, {
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          backgroundColor: 'rgba(248, 249, 255, 0.95)',
           backdropFilter: 'blur(10px)',
           borderBottom: '1px solid rgba(0,0,0,0.05)',
           boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)',
-          height: '70px',
+          height: '80px',
           duration: 0.4
         });
       },
       onLeaveBack: () => {
         gsap.to(this.navbar.nativeElement, {
-          backgroundColor: 'rgba(255, 255, 255, 1)',
+          backgroundColor: 'rgba(248, 249, 255, 1)',
           backdropFilter: 'blur(0px)',
           boxShadow: 'none',
-          height: '80px',
+          height: '96px',
           duration: 0.4
         });
       }

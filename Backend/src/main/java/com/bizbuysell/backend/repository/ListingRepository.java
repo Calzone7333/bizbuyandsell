@@ -14,6 +14,7 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     List<Listing> findByVerificationStatus(VerificationStatus status);
     List<Listing> findByCategory(String category);
     long countByVerificationStatus(VerificationStatus status);
+    boolean existsByLegalBusinessName(String legalBusinessName);
     
     @Query("SELECT SUM(l.askingPrice) FROM Listing l WHERE l.verificationStatus = 'VERIFIED'")
     Double sumAskingPriceOfVerifiedListings();

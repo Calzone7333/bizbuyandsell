@@ -8,6 +8,7 @@ import { AdminDashboardComponent } from './admin-dashboard.component';
 import { SellComponent } from './sell.component';
 import { SettingsComponent } from './settings.component';
 import { PrivacyPolicyComponent } from './privacy-policy.component';
+import { BuyerDashboardComponent } from './buyer-dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'profile/settings', component: SettingsComponent },
   { path: 'sell', component: SellComponent },
   { path: 'admin', component: AdminDashboardComponent },
-  { path: 'privacy', component: PrivacyPolicyComponent }
+  { path: 'privacy', component: PrivacyPolicyComponent },
+  { path: 'buyer-dashboard', component: BuyerDashboardComponent }
 ];

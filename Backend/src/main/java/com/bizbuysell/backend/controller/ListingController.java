@@ -20,7 +20,7 @@ public class ListingController {
     private final ListingService listingService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN', 'BUYER', 'USER')")
     public ResponseEntity<Listing> createListing(
             @RequestBody Listing listing,
             @AuthenticationPrincipal User seller) {
@@ -51,12 +51,13 @@ public class ListingController {
     @PreAuthorize("hasAnyRole('ADMIN', 'CA_EXPERT')")
     public ResponseEntity<Listing> verifyListing(
             @PathVariable Long id,
-            @RequestParam boolean financials,
-            @RequestParam boolean gst,
-            @RequestParam boolean profit,
-            @RequestParam boolean identity,
-            @RequestBody String summary) {
-        return ResponseEntity.ok(listingService.verifyListing(id, financials, gst, profit, identity, summary));
+            @RequestBody com.bizbuysell.backend.dto.ListingVerificationRequest request) {
+        return ResponseEntity.ok(listingService.verifyListing(id, 
+            request.isFinancials(), 
+            request.isGst(), 
+            request.isProfit(), 
+            request.isIdentity(), 
+            request.getSummary()));
     }
 
     @GetMapping("/calculate-valuation")

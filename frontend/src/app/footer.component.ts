@@ -12,26 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
   imports: [CommonModule, RouterLink],
   template: `
     <footer class="footer-container">
-      <!-- Top Subscription Section -->
-      <div class="subscribe-row animate-section">
-        <div class="container">
-          <div class="subscribe-content">
-            <div class="flex flex-col">
-              <div class="accent-bar"></div>
-              <h2 class="subscribe-pill">Stay Updated</h2>
-            </div>
-            <p class="subscribe-text">
-              Subscribe to get the latest premium business listings and market insights delivered straight to your inbox. Join 50,000+ investors and business owners.
-            </p>
-            <div class="subscribe-form">
-              <input type="email" placeholder="Enter Your Email Address" class="email-input">
-              <button class="subscribe-btn">
-                <span class="material-symbols-outlined">chevron_right</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       <!-- Main Footer Content -->
       <div class="main-footer">
@@ -45,57 +26,69 @@ gsap.registerPlugin(ScrollTrigger);
                 Simplifying the complexity of business transitions through institutional-grade deal flow and expert advisory services.
               </p>
               <div class="social-links">
-                <a href="#" class="social-icon">F</a>
-                <a href="#" class="social-icon">T</a>
-                <a href="#" class="social-icon">L</a>
-                <a href="#" class="social-icon">I</a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
               </div>
             </div>
 
-            <!-- Links Columns -->
+            <!-- BUY BUSINESS -->
             <div class="links-col animate-col">
-              <h3>Marketplace</h3>
+              <h3>Buy Business</h3>
               <ul>
-                <li><a href="#">Browse Listings</a></li>
-                <li><a href="#">Premium Picks</a></li>
-                <li><a href="#">Small Businesses</a></li>
-                <li><a href="#">Asset Sales</a></li>
+                <li><a routerLink="/browse">Browse Businesses</a></li>
+                <li><a href="#">Buy with CA Expert</a></li>
+                <li><a href="#">Business Valuation</a></li>
+                <li><a routerLink="/buyer-dashboard">Buyer Dashboard</a></li>
               </ul>
             </div>
 
+            <!-- SELL BUSINESS -->
             <div class="links-col animate-col">
-              <h3>Services</h3>
+              <h3>Sell Business</h3>
               <ul>
-                <li><a href="#">Sell a Business</a></li>
-                <li><a href="#">Valuation Services</a></li>
-                <li><a href="#">M&A Advisory</a></li>
-                <li><a href="#">Funding Support</a></li>
+                <li><a routerLink="/sell">List Your Business</a></li>
+                <li><a href="#">Sell with CA Expert</a></li>
+                <li><a href="#">Business Valuation</a></li>
+                <li><a href="#">Pricing Plans</a></li>
               </ul>
             </div>
 
+            <!-- INVESTMENT -->
             <div class="links-col animate-col">
-              <h3>Company</h3>
+              <h3>Investment</h3>
               <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Our Network</a></li>
+                <li><a href="#">Startup Deals</a></li>
+                <li><a href="#">Verified Businesses</a></li>
+                <li><a href="#">High Return Deals</a></li>
+                <li><a href="#">Partnerships</a></li>
+              </ul>
+            </div>
+
+            <!-- FRANCHISE -->
+            <div class="links-col animate-col">
+              <h3>Franchise</h3>
+              <ul>
+                <li><a href="#">Explore Brands</a></li>
+                <li><a href="#">Top Franchises</a></li>
+                <li><a href="#">Low Investment</a></li>
+                <li><a href="#">Franchise Deals</a></li>
+              </ul>
+            </div>
+
+            <!-- UTILITY & SUBSCRIBE -->
+            <div class="links-col animate-col">
+              <h3>Resources</h3>
+              <ul>
+                <li><a href="#">How It Works</a></li>
+                <li><a href="#">FAQs</a></li>
                 <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Newsroom</a></li>
-              </ul>
-            </div>
-
-            <div class="links-col animate-col">
-              <h3>Location</h3>
-              <p class="contact-info">Call Support:<br><span>+91 44 2626 2626</span></p>
-              <p class="contact-info">Email Us:<br><span>support@bizbuysell.in</span></p>
-            </div>
-
-            <!-- Map Column -->
-            <div class="map-col animate-col">
-              <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.5568896669224!2d80.18824307436758!3d13.06385311285044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267324f4ab783%3A0x5a5319e17f3a0a4b!2sGayathri%20Thiruvengadam%20%26%20Associates!5e0!3m2!1sen!2sin!4v1776487234443!5m2!1sen!2sin" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="footer-map grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-700"></iframe>
-              </div>
+              </ul>              
             </div>
           </div>
+
+
         </div>
       </div>
 
@@ -109,7 +102,7 @@ gsap.registerPlugin(ScrollTrigger);
             <span class="sep">|</span>
             <a href="#">Broker Standards</a>
           </div>
-          <p class="copyright">© 2026 Bizbuysell India. All rights reserved.</p>
+          <p class="copyright">© 2026 Hado Global Services Private Limited. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -126,7 +119,7 @@ gsap.registerPlugin(ScrollTrigger);
       --black: #111111;
       display: block;
       width: 100%;
-      font-family: 'Inter', 'Manrope', sans-serif;
+      font-family: 'Work Sans', sans-serif;
     }
 
     .container {
@@ -163,7 +156,7 @@ gsap.registerPlugin(ScrollTrigger);
     }
 
     .subscribe-pill {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Work Sans', sans-serif;
       font-size: 2.5rem;
       font-weight: 900;
       color: var(--black);
@@ -230,13 +223,13 @@ gsap.registerPlugin(ScrollTrigger);
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.5fr repeat(4, 1fr) 1.5fr;
-      gap: 40px;
+      grid-template-columns: 1.5fr repeat(5, 1fr);
+      gap: 30px;
       margin-bottom: 60px;
     }
 
     .brand-col .brand-name {
-      font-family: 'Manrope', sans-serif;
+      font-family: 'Work Sans', sans-serif;
       font-size: 2.2rem;
       font-weight: 900;
       color: var(--black);
@@ -272,17 +265,16 @@ gsap.registerPlugin(ScrollTrigger);
     }
 
     .social-icon {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      background: #eee;
+      background: #f1f1f1;
       display: flex;
       align-items: center;
       justify-content: center;
       text-decoration: none;
-      color: #666;
-      font-weight: bold;
-      font-size: 0.8rem;
+      color: #555;
+      font-size: 1rem;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: 1px solid transparent;
     }
@@ -300,13 +292,11 @@ gsap.registerPlugin(ScrollTrigger);
     }
 
     .links-col h3 {
-      font-family: 'Manrope', sans-serif;
-      font-size: 1.1rem;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 16px;
       font-weight: 900;
       color: var(--black);
       margin: 0 0 25px 0;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
     }
 
     .links-col ul {
@@ -341,7 +331,9 @@ gsap.registerPlugin(ScrollTrigger);
     .links-col ul li a {
       text-decoration: none;
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: 'Work Sans', sans-serif;
       transition: all 0.3s ease;
       display: inline-block;
     }
@@ -352,7 +344,7 @@ gsap.registerPlugin(ScrollTrigger);
     }
 
     .contact-info {
-      font-size: 0.95rem;
+      font-size: 15px;
       color: var(--text-muted);
       margin-bottom: 20px;
       line-height: 1.6;
@@ -379,9 +371,21 @@ gsap.registerPlugin(ScrollTrigger);
 
     .footer-map {
       width: 100%;
-      height: auto;
       display: block;
       border-radius: 8px;
+    }
+
+    .mini-subscribe {
+      background: #fdfdfd;
+    }
+
+    .subscribe-form.mini {
+      min-width: 0;
+    }
+
+    .subscribe-form.mini .email-input {
+      padding: 10px 15px;
+      font-size: 0.9rem;
     }
 
     .thank-you-box {

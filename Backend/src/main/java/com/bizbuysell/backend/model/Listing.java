@@ -25,51 +25,118 @@ public class Listing {
     @JoinColumn(name = "seller_id", nullable = false)
     private User seller;
 
-    private String title;
-    @Column(length = 2000)
-    private String description;
-    
-    // Identity Masking: By default, hide the Business Name and exact Address from public view.
-    private String businessName; 
-    private String exactAddress; 
+    // 1. Legal Business Name
+    private String legalBusinessName;
+
+    // 2. Brand Name
+    private String brandName;
+
+    @Builder.Default
+    private boolean hideBusinessName = false;
+
+    @Builder.Default
+    private boolean hideExactAddress = false;
+
+    // 3. Mode of Business
+    private String businessMode; // e.g., Online, Offline, Hybrid
+
+    // 4. Business Category
+    private String category;
+
+    // 5. Location
     private String city;
     private String state;
-    
-    @Builder.Default
-    private boolean hideBusinessName = true;
-    @Builder.Default
-    private boolean hideExactAddress = true;
+    private String pinCode;
 
-    // Financials for Valuation and listing
-    private Double askingPrice;
+    // 6. Average Daily/Monthly Turnover
+    private Double averageDailyTurnover;
+    private Double averageMonthlyTurnover;
     private Double annualRevenue;
-    private Double netProfit;
-    private Double assetsValue;
-    
-    // Franchise & Investment categories
-    private String category; // e.g., "Business", "Franchise", "Startup Investment"
-    
+
+    // 7. Asking Price
+    private Double askingPrice;
+
+    // 8. Value of Business
+    private Double businessValue;
+
+    // 9. Rent & Maintenance
+    private Double rentAndMaintenance;
+
+    // 10. Asset List
+    @Column(columnDefinition = "TEXT")
+    private String assetList;
+
+    // 11. Client
+    @Column(columnDefinition = "TEXT")
+    private String clientBase;
+
+    // 12. GST Number
+    private String gstNumber;
+
+    // 13. Company PAN Card
+    private String companyPan;
+
+    // 14. Business Licenses
+    @Column(columnDefinition = "TEXT")
+    private String businessLicenses;
+
+    // 15. Lease Agreement, Security Deposit, Lock-in Period
+    @Column(columnDefinition = "TEXT")
+    private String leaseAgreementUrl;
+    private Double securityDeposit;
+    private String lockInPeriod;
+
+    // Statutory Documents
+    @Column(columnDefinition = "TEXT")
+    private String panImageUrl;
+    @Column(columnDefinition = "TEXT")
+    private String coiUrl;
+    @Column(columnDefinition = "TEXT")
+    private String moaUrl;
+    @Column(columnDefinition = "TEXT")
+    private String aoaUrl;
+    @Column(columnDefinition = "TEXT")
+    private String financialsUrl;
+    @Column(columnDefinition = "TEXT")
+    private String gstCertUrl;
+
+    // 16. Clear Photos (already handled by imageUrls)
+    @ElementCollection
+    private List<String> imageUrls;
+
+    // 17. Compelling Description(Reason)
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    // 18. Contact
+    private String contactNumber;
+    private String contactEmail;
+
+    // 19. Physical (SQFT)
+    private Double physicalSqft;
+
+    // 20. Growth Opportunities
+    @Column(columnDefinition = "TEXT")
+    private String growthOpportunities;
+
     // Verification Status
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
 
-    // Verification Checklist: (1) Financial Statement Check, (2) GST/Bank Validation, (3) Basic Profit Verification, and (4) Business Identity.
     private boolean financialStatementChecked;
     private boolean gstBankValidated;
     private boolean profitVerified;
     private boolean identityVerified;
-    
-    @Column(length = 2000)
-    private String caAuditSummary;
-    private String verificationReportUrl;
 
-    @ElementCollection
-    private List<String> imageUrls;
+    @Column(columnDefinition = "TEXT")
+    private String caAuditSummary;
+    @Column(columnDefinition = "TEXT")
+    private String verificationReportUrl;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

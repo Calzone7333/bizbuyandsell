@@ -3,6 +3,7 @@ E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\Authen
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\ListingResponseDTO.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\InterestRequestService.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\repository\UserRepository.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\config\WebConfig.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\EmailService.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\InterestRequestController.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\model\InterestRequest.java
@@ -18,6 +19,8 @@ E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\Li
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\ConsultationRequestController.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\HealthController.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\config\SecurityConfig.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller\FileController.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\service\FileStorageService.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\BackendApplication.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\model\Role.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\VerificationRequest.java
@@ -36,3 +39,4 @@ E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\controller
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\model\ConsultationRequest.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\ForgotPasswordRequest.java
 E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\repository\ConsultationRequestRepository.java
+E:\office\key\Bizbuysell\Backend\src\main\java\com\bizbuysell\backend\dto\ListingVerificationRequest.java

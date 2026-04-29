@@ -90,7 +90,7 @@ export class AppComponent implements AfterViewInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      const hiddenRoutes = ['/login', '/register', '/forgot-password', '/admin', '/sell'];
+      const hiddenRoutes = ['/login', '/register', '/forgot-password', '/admin'];
       this.showUI = !hiddenRoutes.some(route => event.url.startsWith(route));
     });
   }

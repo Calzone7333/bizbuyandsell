@@ -6,12 +6,25 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ListingService {
-  private apiUrl = 'http://localhost:8086/api/listings';
-  private statsUrl = 'http://localhost:8086/api/public/stats';
-  private interestUrl = 'http://localhost:8086/api/interest';
-  private consultationUrl = 'http://localhost:8086/api/consultations';
+  private get host(): string {
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'localhost'
+      : window.location.hostname;
+  }
+
+  private get apiUrl() { return `http://${this.host}:8086/api/listings`; }
+  private get statsUrl() { return `http://${this.host}:8086/api/public/stats`; }
+  private get interestUrl() { return `http://${this.host}:8086/api/interest`; }
+  private get consultationUrl() { return `http://${this.host}:8086/api/consultations`; }
+  private get filesUrl() { return `http://${this.host}:8086/api/files`; }
 
   constructor(private http: HttpClient) { }
+
+  uploadFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(`${this.filesUrl}/upload`, formData);
+  }
 
   getPlatformStats(): Observable<any> {
     return this.http.get<any>(this.statsUrl);
@@ -52,14 +65,7 @@ export class ListingService {
   }
 
   verifyListing(id: number, verificationData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/verify`, verificationData.summary, { 
-      params: { 
-        financials: verificationData.financials,
-        gst: verificationData.gst,
-        profit: verificationData.profit,
-        identity: verificationData.identity
-      } 
-    });
+    return this.http.post<any>(`${this.apiUrl}/${id}/verify`, verificationData);
   }
 
   calculateValuation(netProfit: number, assetsValue: number): Observable<number> {

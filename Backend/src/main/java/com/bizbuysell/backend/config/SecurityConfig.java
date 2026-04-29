@@ -32,7 +32,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**", "/api/v1/health", "/api/listings", "/api/listings/*", "/api/listings/category/*").permitAll()
+                .requestMatchers("/api/v1/auth/**", "/api/v1/health", "/api/listings", "/api/listings/*", "/api/listings/category/*", "/api/files/**", "/uploads/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -45,7 +45,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://103.181.108.248", "http://bizbuyandsell.in", "https://bizbuyandsell.in"));
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:4200", "http://*:4200", "http://103.181.108.248", "http://bizbuyandsell.in", "https://bizbuyandsell.in"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

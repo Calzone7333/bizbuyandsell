@@ -26,12 +26,9 @@ type AuthStep = 'request' | 'verify' | 'reset' | 'success';
         
         <!-- Brand Header (Always Visible) -->
         <div class="mb-10 text-center">
-          <div class="inline-flex items-center gap-2 mb-2">
-             <div class="w-8 h-8 bg-[#FF7C2A] rounded-lg flex items-center justify-center">
-                <span class="material-symbols-outlined text-white text-lg">lock_reset</span>
-              </div>
-          </div>
-          <p class="font-headline font-black text-xl tracking-widest text-[#09337B] uppercase">Bizbuyandsell</p>
+          <a routerLink="/" class="inline-block transition-opacity hover:opacity-80">
+            <img src="/Home/LOGO.png" alt="Bizbuysell Logo" class="h-[42px] mx-auto">
+          </a>
         </div>
 
         <!-- Error Message -->

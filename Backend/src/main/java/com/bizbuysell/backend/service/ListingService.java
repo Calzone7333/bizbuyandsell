@@ -20,6 +20,12 @@ public class ListingService {
     public Listing createListing(Listing listing, User seller) {
         listing.setSeller(seller);
         listing.setVerificationStatus(VerificationStatus.PENDING);
+        
+        // Auto-calculate annual revenue for database storage if not provided
+        if (listing.getAverageMonthlyTurnover() != null) {
+            listing.setAnnualRevenue(listing.getAverageMonthlyTurnover() * 12);
+        }
+        
         return listingRepository.save(listing);
     }
 
@@ -57,16 +63,34 @@ public class ListingService {
         return ListingResponseDTO.builder()
                 .id(listing.getId())
                 .sellerId(listing.getSeller().getId())
-                .title(listing.getTitle())
+                .title(listing.getBrandName() != null ? listing.getBrandName() : "Confidential Listing")
                 .description(listing.getDescription())
-                .businessName(hasFullAccess ? listing.getBusinessName() : "**********")
-                .exactAddress(hasFullAccess ? listing.getExactAddress() : "Address Hidden")
+                .legalBusinessName(hasFullAccess ? listing.getLegalBusinessName() : "**********")
+                .brandName(listing.getBrandName())
+                .hideBusinessName(listing.isHideBusinessName())
+                .hideExactAddress(listing.isHideExactAddress())
+                .gstNumber(hasFullAccess ? listing.getGstNumber() : "HIDDEN")
+                .companyPan(hasFullAccess ? listing.getCompanyPan() : "HIDDEN")
+                .businessLicenses(hasFullAccess ? listing.getBusinessLicenses() : "HIDDEN")
+                .contactNumber(hasFullAccess ? listing.getContactNumber() : "HIDDEN")
+                .contactEmail(hasFullAccess ? listing.getContactEmail() : "HIDDEN")
+                .businessMode(listing.getBusinessMode())
                 .city(listing.getCity())
                 .state(listing.getState())
+                .pinCode(hasFullAccess ? listing.getPinCode() : "****")
                 .askingPrice(listing.getAskingPrice())
+                .averageDailyTurnover(listing.getAverageDailyTurnover())
+                .averageMonthlyTurnover(listing.getAverageMonthlyTurnover())
                 .annualRevenue(listing.getAnnualRevenue())
-                .netProfit(listing.getNetProfit())
-                .assetsValue(listing.getAssetsValue())
+                .businessValue(listing.getBusinessValue())
+                .rentAndMaintenance(listing.getRentAndMaintenance())
+                .physicalSqft(listing.getPhysicalSqft())
+                .assetList(hasFullAccess ? listing.getAssetList() : "Hidden Assets")
+                .clientBase(hasFullAccess ? listing.getClientBase() : "Hidden Client Details")
+                .leaseAgreementUrl(hasFullAccess ? listing.getLeaseAgreementUrl() : null)
+                .securityDeposit(hasFullAccess ? listing.getSecurityDeposit() : null)
+                .lockInPeriod(hasFullAccess ? listing.getLockInPeriod() : null)
+                .growthOpportunities(listing.getGrowthOpportunities())
                 .category(listing.getCategory())
                 .verificationStatus(listing.getVerificationStatus())
                 .isVerified(listing.getVerificationStatus() == VerificationStatus.VERIFIED)
@@ -75,8 +99,14 @@ public class ListingService {
                 .profitVerified(listing.isProfitVerified())
                 .identityVerified(listing.isIdentityVerified())
                 .caAuditSummary(listing.getCaAuditSummary())
-                .verificationReportUrl(listing.getVerificationReportUrl())
+                .verificationReportUrl(hasFullAccess ? listing.getVerificationReportUrl() : null)
                 .imageUrls(listing.getImageUrls())
+                .panImageUrl(hasFullAccess ? listing.getPanImageUrl() : null)
+                .coiUrl(hasFullAccess ? listing.getCoiUrl() : null)
+                .moaUrl(hasFullAccess ? listing.getMoaUrl() : null)
+                .aoaUrl(hasFullAccess ? listing.getAoaUrl() : null)
+                .financialsUrl(hasFullAccess ? listing.getFinancialsUrl() : null)
+                .gstCertUrl(hasFullAccess ? listing.getGstCertUrl() : null)
                 .createdAt(listing.getCreatedAt())
                 .accessApproved(hasFullAccess)
                 .build();
