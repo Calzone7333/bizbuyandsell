@@ -12,11 +12,15 @@ export class ListingService {
       : window.location.hostname;
   }
 
-  private get apiUrl() { return `http://${this.host}:8086/api/listings`; }
-  private get statsUrl() { return `http://${this.host}:8086/api/public/stats`; }
-  private get interestUrl() { return `http://${this.host}:8086/api/interest`; }
-  private get consultationUrl() { return `http://${this.host}:8086/api/consultations`; }
-  private get filesUrl() { return `http://${this.host}:8086/api/files`; }
+  private get protocol(): string {
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http:' : window.location.protocol;
+  }
+
+  private get apiUrl() { return `${this.protocol}//${this.host}:8086/api/listings`; }
+  private get statsUrl() { return `${this.protocol}//${this.host}:8086/api/public/stats`; }
+  private get interestUrl() { return `${this.protocol}//${this.host}:8086/api/interest`; }
+  private get consultationUrl() { return `${this.protocol}//${this.host}:8086/api/consultations`; }
+  private get filesUrl() { return `${this.protocol}//${this.host}:8086/api/files`; }
 
   constructor(private http: HttpClient) { }
 

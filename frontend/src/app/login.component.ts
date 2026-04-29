@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { gsap } from 'gsap';
 import { AuthService } from './auth.service';
 import { ListingService } from './listing.service';
+import { SocialAuthService, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -111,7 +112,7 @@ import { ListingService } from './listing.service';
             </div>
 
             <!-- Social Action -->
-            <button class="w-full bg-slate-50 border border-zinc-100 text-[#09337B] font-body font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-slate-100 transition-colors duration-300" type="button">
+            <button (click)="signInWithGoogle()" class="w-full bg-slate-50 border border-zinc-100 text-[#09337B] font-body font-semibold py-2.5 px-4 rounded-lg flex items-center justify-center gap-3 hover:bg-slate-100 transition-colors duration-300" type="button">
               <svg class="w-5 h-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -181,7 +182,8 @@ export class LoginComponent implements AfterViewInit, OnInit {
   constructor(
     private authService: AuthService, 
     private router: Router,
-    private listingService: ListingService
+    private listingService: ListingService,
+    private socialAuthService: SocialAuthService
   ) {}
 
   ngOnInit() {
@@ -218,6 +220,31 @@ export class LoginComponent implements AfterViewInit, OnInit {
       error: (error) => {
         this.errorMessage = error.error?.message || 'Invalid email or password.';
       }
+    });
+  }
+
+  signInWithGoogle() {
+    this.errorMessage = '';
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
+      if (user && user.idToken) {
+        this.authService.googleLogin(user.idToken).subscribe({
+          next: (response) => {
+            if (response.role === 'ADMIN') {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          },
+          error: (error) => {
+            this.errorMessage = error.error?.message || 'Google login failed.';
+          }
+        });
+      } else {
+        this.errorMessage = 'Google login failed: No ID token received.';
+      }
+    }).catch(err => {
+      this.errorMessage = 'Google authentication failed.';
+      console.error(err);
     });
   }
 

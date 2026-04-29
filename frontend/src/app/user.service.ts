@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   private apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8086/api/v1/user'
-    : `http://${window.location.hostname}:8086/api/v1/user`;
+    : `${window.location.protocol}//${window.location.hostname}:8086/api/v1/user`;
 
   constructor(private http: HttpClient) {}
 

@@ -3,6 +3,7 @@ package com.bizbuysell.backend.controller;
 import com.bizbuysell.backend.dto.AuthenticationResponse;
 import com.bizbuysell.backend.dto.LoginRequest;
 import com.bizbuysell.backend.dto.RegisterRequest;
+import com.bizbuysell.backend.dto.GoogleLoginRequest;
 import com.bizbuysell.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,10 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<AuthenticationResponse> resetPassword(@RequestBody com.bizbuysell.backend.dto.ResetPasswordRequest request) {
         return ResponseEntity.ok(service.resetPassword(request.getEmail(), request.getOtp(), request.getNewPassword()));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthenticationResponse> googleLogin(@RequestBody GoogleLoginRequest request) {
+        return ResponseEntity.ok(service.googleLogin(request.getToken()));
     }
 }

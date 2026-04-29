@@ -8,7 +8,7 @@ import { Observable, tap, BehaviorSubject } from 'rxjs';
 export class AuthService {
   private apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8086/api/v1/auth'
-    : `http://${window.location.hostname}:8086/api/v1/auth`;
+    : `${window.location.protocol}//${window.location.hostname}:8086/api/v1/auth`;
   private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   constructor(private http: HttpClient) {}
@@ -41,6 +41,20 @@ export class AuthService {
 
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userEmail', response.email);
+          localStorage.setItem('userRole', response.role);
+          localStorage.setItem('kycVerified', String(response.kycVerified));
+          this.loggedInSubject.next(true);
+        }
+      })
+    );
+  }
+
+  googleLogin(token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/google`, { token }).pipe(
       tap((response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);

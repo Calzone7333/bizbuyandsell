@@ -12,6 +12,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+import java.util.Collections;
+import java.util.Optional;
 
 import java.util.Random;
 
@@ -24,6 +32,9 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+
+    @Value("${google.client.id}")
+    private String googleClientId;
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
@@ -155,5 +166,50 @@ public class AuthenticationService {
     private String generateOtp() {
         Random random = new Random();
         return String.format("%06d", random.nextInt(999999));
+    }
+
+    public AuthenticationResponse googleLogin(String token) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(token);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                
+                Optional<User> userOptional = repository.findByEmail(email);
+                User user;
+                if (userOptional.isPresent()) {
+                    user = userOptional.get();
+                    if (!user.isEnabled()) {
+                        user.setEnabled(true);
+                        repository.save(user);
+                    }
+                } else {
+                    user = User.builder()
+                            .email(email)
+                            .password(passwordEncoder.encode("GOOGLE_AUTH_PWD_" + new Random().nextInt(1000000))) // Random pwd
+                            .role(Role.USER)
+                            .enabled(true)
+                            .active(true)
+                            .build();
+                    repository.save(user);
+                }
+
+                var jwtToken = jwtService.generateToken(user);
+                return AuthenticationResponse.builder()
+                        .token(jwtToken)
+                        .email(user.getEmail())
+                        .role(user.getRole().name())
+                        .kycVerified(user.isKycVerified())
+                        .build();
+            } else {
+                throw new RuntimeException("Invalid Google token");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Google login failed: " + e.getMessage());
+        }
     }
 }
