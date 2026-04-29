@@ -5,12 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { gsap } from 'gsap';
 import { AuthService } from './auth.service';
 import { ListingService } from './listing.service';
-import { SocialAuthService, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { SocialAuthService, GoogleLoginProvider, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, SocialLoginModule],
   template: `
     <main class="flex min-h-screen bg-white font-body selection:bg-[#FF7C2A]/20 selection:text-[#192830]">
       <!-- Left Section: Visual Identity -->
